@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ALL_VIDEOS_URL } from '../../constants/endPoints';
 import { VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
+import { filterList } from '../../util/ComponentMethods';
 import Header from '../Header';
 import { getCookie, LOCAL_STORAGE } from '../Login/StorageUtil';
 import PrimeBanner from '../PrimeBanner';
@@ -47,12 +48,6 @@ const Home = () => {
         }
     }
 
-    const filterList = (querry:string, list:VideoList) => {
-        return list.videos ? list.videos.filter((video) => (
-            video.title.toLowerCase().includes(querry.toLowerCase())
-        ))
-        :[];
-    }
 
     useEffect(()=>{
         getVideoList();
