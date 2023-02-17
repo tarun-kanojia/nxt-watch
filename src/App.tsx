@@ -73,23 +73,9 @@ export let THEME_DARK = {
 function App() {
   const [theme, setTheme] = useState('light')
   const [jwtToken, setJwtToken] = useState(getCookie(LOCAL_STORAGE.JWT_TOKEN))
-  // console.log('JWT_TOKEN',jwtToken)
-
-  // const JWT_TOKEN = getCookie('JWT_TOKEN');
-
-  // const navigate = useNavigate()
-
-  //     console.log(JWT_TOKEN,'erfd');
-  //     useEffect(() => {
-  //         if(!JWT_TOKEN)
-  //         console.log('useeffct Missing JWT TOKEN')
-
-  //         navigate('/login')
-
-  //     },[])
+  
   return (
-    // <JWTTokenContext.Provider value={{jwtToken:jwtToken, setToken:setJwtToken}}>
-
+   
     <BrowserRouter>
       <JWTTokenContext.Provider value={{ jwtToken: jwtToken, setToken: setJwtToken }}>
 
@@ -122,7 +108,6 @@ function App() {
         </ThemeContextHook.Provider>
       </JWTTokenContext.Provider>
     </BrowserRouter>
-    // </JWTTokenContext.Provider>
   );
 }
 
