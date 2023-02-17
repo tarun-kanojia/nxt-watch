@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { FaFire } from 'react-icons/fa'
 import { TRENDING_VIDEO_URL } from '../../constants/endPoints'
 import { VideoListResponse } from '../../model/types'
 import { VideoList } from '../../model/VideoList'
 import { getCookie, LOCAL_STORAGE } from '../Login/StorageUtil'
+import PageHeader from '../PageHeader'
 import VideoCardList from '../VideoCardList'
 import VideoCardListHorizontal from '../VideoCardListHorizontal'
-import { TrendingContainer } from './style'
+import { TrendingContainer, TrendinPageWrapper } from './style'
 
 const Trending = () => {
    // console.log('Inside trending')
@@ -38,9 +40,15 @@ const Trending = () => {
       getVideoList();
    }, [])
    console.log(videoDataList)
-   return (<TrendingContainer>
-      <VideoCardListHorizontal videoDataList = {videoDataList} />
-   </TrendingContainer>);
+   return (
+      <TrendinPageWrapper>
+         <PageHeader Icon={FaFire} />
+         <TrendingContainer>
+
+            <VideoCardListHorizontal videoDataList={videoDataList} />
+         </TrendingContainer>
+      </TrendinPageWrapper>
+   );
 }
 
 export default Trending;
