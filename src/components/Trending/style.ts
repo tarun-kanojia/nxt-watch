@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export const TrendingContainer = styled.section`
+export const TrendinPageWrapper = styled.section`
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -9,8 +9,11 @@ export const TrendingContainer = styled.section`
     position: fixed;
     left: 22%;
     top: 109px;
-    padding: 1rem;
+    `;
+export const TrendingContainer = styled.section`
+    
     overflow-y: scroll;
+    padding: 1rem;
 
 `;
 export const VideoCardsContainer = styled.section`
