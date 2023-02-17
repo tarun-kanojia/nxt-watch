@@ -4,3 +4,4 @@ export const LOGIN_URL = BASE_URL + "/login"
 
 export const ALL_VIDEOS_URL = VIDEOS_BASE_URL + "/all?search="
 export const VIDEO_URL = VIDEOS_BASE_URL + "/:id"
+export const TRENDING_VIDEO_URL = VIDEOS_BASE_URL+'/trending';
