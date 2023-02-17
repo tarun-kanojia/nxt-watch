@@ -54,15 +54,16 @@ const VideoComponent = ({ }) => {
         try {
             const response = await fetch(VIDEOS_BASE_URL + `/${videoId}`, requestOption);
             const responseData = await response.json();
-
+            // console.log(responseData)
             const responseVideoData: VideoResponse = responseData.video_details;
             setVideoData(new Video(responseVideoData));
+        
 
         } catch (error) {
 
         }
     }
-    console.log(videoData);
+    // console.log(videoData);
 
     useEffect(() => {
         console.log(getVideoData())
@@ -94,11 +95,11 @@ const VideoComponent = ({ }) => {
                 <Divider />
 
                 <ChannelWrapper>
-                    <ChannelProfile />
+                    <ChannelProfile src={videoData.channel.profileImageUrl} />
                     <ChannelDetails>
-                        <ChannelName></ChannelName>
-                        <ChannelSubscribersCount></ChannelSubscribersCount>
-                        <ChannelDescription></ChannelDescription>
+                        <ChannelName>{videoData.channel.name}</ChannelName>
+                        <ChannelSubscribersCount>{videoData.channel.subscriberCount}</ChannelSubscribersCount>
+                        <ChannelDescription>{videoData.description}</ChannelDescription>
                     </ChannelDetails>
                 </ChannelWrapper>
 

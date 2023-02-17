@@ -13,7 +13,7 @@ const ActionButtonList = ({ actionIconButtonList, updateActionButtonList }: Acti
             actionIconButtonList.list.map((buttonItem) => (
                 <buttonItem.Element
                     size="2rem"
-                    color={buttonItem.active ? 'red' : 'grey'}
+                    color={buttonItem.active ? '#3b82f6' : 'grey'}
                     onClick={() => {
                         actionIconButtonList.toggleActiveStatus(buttonItem.id);
                         updateActionButtonList(actionIconButtonList);
