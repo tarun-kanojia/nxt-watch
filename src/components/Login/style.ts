@@ -8,33 +8,36 @@ interface GlobalProps {
 
 
 export const THEME = {
-    LOGO_URL_DARK:'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png',
-    LOGO_URL_LIGHT:'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png',
+    LOGO_URL_DARK: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png',
+    LOGO_URL_LIGHT: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png',
     LABEL_LIGHT: '#909090',
     LABEL_DARK: '#f8fafc',
     INPUT_LIGHT: '#0f0f0f',
     INPUT_DARK: '#ffffff',
-    LOGIN_BTN_BG_COLOR:'#3b82f6',
-    LOGIN_BTN_TXT_COLOR:' #f8fafc',
-    SHOW_PASSWORD_LIGHT:'black',
-    SHOW_PASSWORD_DARK:' #f8fafc'
+    LOGIN_BTN_BG_COLOR: '#3b82f6',
+    LOGIN_BTN_TXT_COLOR: ' #f8fafc',
+    SHOW_PASSWORD_LIGHT: 'black',
+    SHOW_PASSWORD_DARK: ' #f8fafc'
 }
 
-const getTheme = (themeLight:string, themeDark:string) => {
-    return  theme == 'light' ? themeLight : themeDark;
+const getTheme = (themeLight: string, themeDark: string) => {
+    return theme == 'light' ? themeLight : themeDark;
 }
 
 
 let theme = 'light';
 
 export const GlobalStyle = createGlobalStyle<GlobalProps>`
-    ${(GlobalProps)=> theme = GlobalProps.theme}
+    ${(GlobalProps) => theme = GlobalProps.theme}
+    a{ text-decoration: none; }
+
+
     
 `;
 
-interface CenterContainerProps{
-    width:string;
-    height:string;
+interface CenterContainerProps {
+    width: string;
+    height: string;
 }
 
 export const CenterContainer = styled.div<CenterContainerProps>`

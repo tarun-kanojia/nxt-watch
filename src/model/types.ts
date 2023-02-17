@@ -48,6 +48,7 @@ export interface ActionButtonItemInterface{
     id:number;
     Element:IconType;
     active:boolean;
+    name:string;
 }
 
 
