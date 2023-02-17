@@ -3,6 +3,7 @@ import { ALL_VIDEOS_URL } from '../../constants/endPoints';
 import { VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
 import Header from '../Header';
+import { getCookie, LOCAL_STORAGE } from '../Login/StorageUtil';
 import PrimeBanner from '../PrimeBanner';
 import SearchBar from '../SearchBar';
 import VideoCardList from '../VideoCardList';
@@ -24,9 +25,11 @@ const Home = () => {
 
     const getVideoList = async () => {
         try {
+
+            const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN)
             const requestOption = {
                 headers: {
-                    Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhaHVsIiwicm9sZSI6IlBSSU1FX1VTRVIiLCJpYXQiOjE2MjMwNjU1MzJ9.D13s5wN3Oh59aa_qtXMo3Ec4wojOx0EZh8Xr5C5sRkU`,
+                    Authorization: `Bearer ${jwtToken}`,
                     "Content-Type": "application/json"
                 },
                 

@@ -5,11 +5,13 @@ export class ActionIconButtonModel {
     id: number;
     Element: IconType;
     active: boolean;
+    name:string;
 
     constructor(buttonItem: ActionButtonItemInterface) {
         this.id = buttonItem.id;
         this.Element = buttonItem.Element;
         this.active = buttonItem.active;
+        this.name = buttonItem.name;
     }
 
 

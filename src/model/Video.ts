@@ -18,5 +18,6 @@ export class Video {
         this.title = videoItem.title;
         this.viewCount = videoItem.view_count;
         this.videoUrl = videoItem.video_url;
+        this.description = videoItem.description;
     }
 }

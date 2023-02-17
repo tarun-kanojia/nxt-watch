@@ -5,7 +5,7 @@ import { VideoResponse } from '../../model/types';
 import { Video } from '../../model/Video';
 import { getDuration } from '../../util/DateFunction';
 import { getCookie, LOCAL_STORAGE } from '../Login/StorageUtil';
-import { ActionButtonWrapper, ChannelDescription, ChannelDetails, ChannelName, ChannelProfile, ChannelSubscribersCount, ChannelWrapper, Divider, DoteIcon, Duration, Title, VideoActonWrapper, VideoAnalyticsWrapper, VideoContainer, ViewCount, YoutubeEmbed } from './style';
+import { ActionButtonWrapper, CenterContainer, ChannelDescription, ChannelDetails, ChannelName, ChannelProfile, ChannelSubscribersCount, ChannelWrapper, Divider, DoteIcon, Duration, Title, VideoActonWrapper, VideoAnalyticsWrapper, VideoContainer, ViewCount, YoutubeEmbed } from './style';
 import { BiLike, BiDislike, BiSave } from 'react-icons/bi'
 import ActionIconButton from '../ActionIconButton';
 import { ActionIconButtonList } from '../../model/ActionIconButton';
@@ -54,15 +54,16 @@ const VideoComponent = ({ }) => {
         try {
             const response = await fetch(VIDEOS_BASE_URL + `/${videoId}`, requestOption);
             const responseData = await response.json();
-
+            // console.log(responseData)
             const responseVideoData: VideoResponse = responseData.video_details;
             setVideoData(new Video(responseVideoData));
+
 
         } catch (error) {
 
         }
     }
-    console.log(videoData);
+    // console.log(videoData);
 
     useEffect(() => {
         console.log(getVideoData())
@@ -86,19 +87,24 @@ const VideoComponent = ({ }) => {
                             actionIconButtonList={actionIconButtonList}
                             updateActionButtonList={updateActionButtonList}
                         />
-                        
-                        <BiSave size='2rem' />
+                        <CenterContainer>
+
+                            <BiSave size='2rem'
+                                color={true ? '#3b82f6' : 'grey'}
+                            />
+                            <span>Save</span>
+                        </CenterContainer>
                     </ActionButtonWrapper>
                 </VideoActonWrapper>
 
                 <Divider />
 
                 <ChannelWrapper>
-                    <ChannelProfile />
+                    <ChannelProfile src={videoData.channel.profileImageUrl} />
                     <ChannelDetails>
-                        <ChannelName></ChannelName>
-                        <ChannelSubscribersCount></ChannelSubscribersCount>
-                        <ChannelDescription></ChannelDescription>
+                        <ChannelName>{videoData.channel.name}</ChannelName>
+                        <ChannelSubscribersCount>{`${videoData.channel.subscriberCount} subscribers`}</ChannelSubscribersCount>
+                        <ChannelDescription>{videoData.description}</ChannelDescription>
                     </ChannelDetails>
                 </ChannelWrapper>
 
