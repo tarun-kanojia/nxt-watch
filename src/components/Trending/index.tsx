@@ -42,7 +42,7 @@ const Trending = () => {
    console.log(videoDataList)
    return (
       <TrendinPageWrapper>
-         <PageHeader Icon={FaFire} />
+         <PageHeader Icon={FaFire} title='Trending'/>
          <TrendingContainer>
 
             <VideoCardListHorizontal videoDataList={videoDataList} />

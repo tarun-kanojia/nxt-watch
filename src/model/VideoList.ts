@@ -1,5 +1,6 @@
-import { VideoListResponse } from "./types";
+import { GamingVideoListResponse, VideoListResponse } from "./types";
 import { Video } from "./Video";
+import { VideoBase } from "./VideoBase";
 
 
 export class VideoList{
@@ -10,3 +11,4 @@ export class VideoList{
         this.videos = videoList.videos.map((videoItem) => new Video(videoItem));
     }
 }
+

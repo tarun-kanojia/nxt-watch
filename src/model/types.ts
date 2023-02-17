@@ -25,9 +25,7 @@ export interface ChannelResponse {
     profile_image_url: string;
     subscriber_count?: string;
 }
-
-export interface VideoResponse {
-    channel: ChannelResponse;
+export interface VideoBaseResponse{
     id: string;
     published_at: string;
     thumbnail_url: string;
@@ -37,11 +35,22 @@ export interface VideoResponse {
     description?: string;
 }
 
+export interface GamingVideoListResponse{
+    total:string;
+    videos:VideoBaseResponse[];
+}
+
+export interface VideoResponse  extends VideoBaseResponse{
+    channel: ChannelResponse;
+    
+}
+
 
 export interface VideoListResponse {
     total: string;
     videos: VideoResponse[];
 }
+
 
 
 export interface ActionButtonItemInterface{

@@ -3,16 +3,17 @@ import { IconType } from 'react-icons';
 import { BannerContainer, BannerIconContainer, BannerTitle } from './style';
 
 interface PageHeaderProps {
-    Icon:IconType
+    Icon:IconType;
+    title:string;
 }
 
-const PageHeader = ({ Icon}:PageHeaderProps) => {
+const PageHeader = ({ Icon, title}:PageHeaderProps) => {
     return (<>
         <BannerContainer>
             <BannerIconContainer>
                 <Icon size='3rem' color='red'/>
             </BannerIconContainer>
-            <BannerTitle>Trending</BannerTitle>
+            <BannerTitle>{title}</BannerTitle>
         </BannerContainer>
     </>);
 }
