@@ -18,5 +18,5 @@ export const VideoCardsContainer = styled.section`
     margin: auto;
     width: 80%;
 
-    row-gap: 10px;
+    row-gap: 20px;
 `;
