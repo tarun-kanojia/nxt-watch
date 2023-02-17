@@ -16,6 +16,7 @@ export class VideoBase{
         this.thumbnailUrl = video.thumbnail_url;
         this.title = video.title;
         this.viewCount = video.view_count;
+        this.videoUrl = video.video_url;
         
     }
 }

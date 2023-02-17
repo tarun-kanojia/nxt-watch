@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import { VIDEOS_BASE_URL, VIDEO_URL } from '../../constants/endPoints';
 import { VideoResponse } from '../../model/types';
@@ -11,6 +11,7 @@ import ActionIconButton from '../ActionIconButton';
 import { ActionIconButtonList } from '../../model/ActionIconButton';
 import { ICONS } from '../ActionIconButton/constant';
 import ActionButtonList from '../ActionButtonsList';
+import { SavedVideosContext } from '../../hooks/SavedVideos';
 
 interface VideoComponentProps {
 
@@ -28,7 +29,8 @@ const opts = {
 const VideoComponent = ({ }) => {
     const [videoData, setVideoData] = useState<Video | null>(null)
     const [actionIconButtonList, setActionIconButtonList] = useState(new ActionIconButtonList(ICONS))
-
+    const videoList = useContext(SavedVideosContext);
+    
     const videoId = useParams().id;
 
     const updateActionButtonList = (list: ActionIconButtonList) => {
@@ -69,17 +71,25 @@ const VideoComponent = ({ }) => {
         console.log(getVideoData())
     }, [])
 
+    const onClickIcon =(videoData:Video)=>{
+        if(videoList !== null){
+            videoList.updateSaveVideoList(videoData)
+        }
+
+    }
+
     return (
         videoData == null ?
             <>Loading</>
 
             : <VideoContainer>
+                
                 <YoutubeEmbed videoId={getVideoId(videoData.videoUrl)} opts={opts} />
                 <Title>{videoData.title}</Title>
                 <VideoActonWrapper>
                     <VideoAnalyticsWrapper>
                         <ViewCount>{`${videoData.viewCount} views`}</ViewCount>
-                        <DoteIcon />
+                        <DoteIcon /> 
                         <Duration>{`${getDuration(videoData.publishedAt)} ago`}</Duration>
                     </VideoAnalyticsWrapper>
                     <ActionButtonWrapper>
@@ -87,7 +97,7 @@ const VideoComponent = ({ }) => {
                             actionIconButtonList={actionIconButtonList}
                             updateActionButtonList={updateActionButtonList}
                         />
-                        <CenterContainer>
+                        <CenterContainer onClick={() =>onClickIcon(videoData)}>
 
                             <BiSave size='2rem'
                                 color={true ? '#3b82f6' : 'grey'}
