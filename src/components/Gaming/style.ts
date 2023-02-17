@@ -16,15 +16,16 @@ export const GamingContainer = styled.section`
 
 export const GamingVideosContainer = styled.div`
     margin: auto;
-    display: grid;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 20px;
-    grid-template-columns: auto auto auto auto;
     width: 90%;
 `;
 
 export const GamingVideoCardWrapper = styled.div`
     display:grid;
-    grid-template-rows: 70% 10% 10%;
+    grid-template-rows: 90% 1fr;
     max-width: 20rem;
     align-items: center;
 `;
@@ -35,11 +36,23 @@ export const  GamingVideoThumbnail = styled.img`
     aspect-ratio: 1/1;
 `;
 
+export const VideoDescription = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 5px 1px 2px 1px;
+
+`
+
 export const VideoTitle = styled.div`
+    font-weight: bold;
+    font-size:${(props) => props.theme.DESCRIPTION_FONT_SIZE};
+    color: ${(props) => props.theme.DASH_BOARD_TXT_COLOR};
+
     
 
 `;
 
 export const LiveWatching = styled.div`
-
+    font-size: ${(props) => props.theme.SUBSCRIBER_COUNT_TXT_SIZE};
+    color:${(props) => props.theme.DASH_BOARD_TXT_COLOR}
 `;
