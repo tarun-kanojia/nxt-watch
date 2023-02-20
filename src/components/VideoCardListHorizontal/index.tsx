@@ -1,19 +1,21 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { SavedVideosType } from '../../hooks/SavedVideos';
 import { VideoList } from '../../model/VideoList';
 import { getDuration } from '../../util/DateFunction';
 import { VideoCardsContainer } from '../Trending/style';
 import { CardImg, ChannelName, DurationTillRelease, TrendingVideoCardWrapper, VideoAnalyticsWrapper, VideoCardDetailsWrapper, VideoCardTitle, VideoViews } from './style';
 
 interface VideoCardListHorizontalProps {
-    videoDataList: VideoList
+    videoDataList: VideoList;
+    
 }
 
-const VideoCardListHorizontal = ({ videoDataList }: VideoCardListHorizontalProps) => {
+export const VideoCardListHorizontal = ({ videoDataList }: VideoCardListHorizontalProps) => {
     return (<VideoCardsContainer>
         {videoDataList.videos == undefined ? null
             : videoDataList.videos.map((videoItem) => (
-                <Link to={`/videos/${videoItem.id}`}>
+                <Link to={`/videos/${videoItem.id}`} key={videoItem.id}>
                     <TrendingVideoCardWrapper>
                         <CardImg src={videoItem.thumbnailUrl} />
                         <VideoCardDetailsWrapper>

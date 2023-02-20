@@ -4,7 +4,8 @@ import { ThemeContext } from 'styled-components';
 import { LoginReducerAction } from '.';
 import { LOGIN_URL } from '../../constants/endPoints';
 import { LoginMetaData } from '../../model/LoginMetaData';
-import { LOCAL_STORAGE, updateCookie } from './StorageUtil';
+import { LOCAL_STORAGE } from '../../util/storage/constant';
+import { updateCookie } from '../../util/storage/StorageUtil';
 import { Checkbox, CredentialInput, CredentialLabel, ErrorMessageContainer, LoginButton, LoginFormContainer, LoginFormWrapper, Logo, ShowPasswordWrapper, Text } from './style';
 import { validateForm } from './ValidationUtil';
 

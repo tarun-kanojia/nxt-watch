@@ -16,7 +16,7 @@ import RenderRoutes from './components/Routes';
 import { ThemeProvider } from 'styled-components';
 import { ThemContextModel } from './hooks/module/ThemeContext';
 import { ThemeContextHook } from './hooks/ThemeContext';
-import { getCookie, LOCAL_STORAGE } from './components/Login/StorageUtil';
+import { getCookie } from './util/storage/StorageUtil';
 import { JWTTokenContext, jwtTokenModel } from './hooks/JWTTokenContext';
 import Router from './components/Router';
 import { Video } from './model/Video';
@@ -77,9 +77,12 @@ function App() {
   const [savedVideos, setSavedVideos] = useState<Video[]>([])
 
   const updateSaveVideoList = (data: Video) => {
-    const newSavedVideoList = [...savedVideos];
-    newSavedVideoList.map((video) => video.id === data.id)
-    newSavedVideoList.push(data);
+    let newSavedVideoList = [...savedVideos];
+    if(!newSavedVideoList.some((video) => video.id === data.id)){
+      newSavedVideoList.push(data)
+    }else {
+      newSavedVideoList = newSavedVideoList.filter((video) => video.id !== data.id)
+    }
     console.log(newSavedVideoList);
     setSavedVideos(newSavedVideoList);
   }

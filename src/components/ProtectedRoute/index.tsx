@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Navigate, Route, Routes, Outlet, useNavigate, redirect } from 'react-router-dom';
 import Cookies from 'js-cookie'
-import { getCookie } from '../Login/StorageUtil';
+import { getCookie } from '../../util/storage/StorageUtil';
 import path from 'path';
 
 interface ProtectedRouteProps {

@@ -1,8 +1,6 @@
 import Cookies from 'js-cookie'
 
-export const LOCAL_STORAGE = {
-  JWT_TOKEN: "JWT_TOKEN"
-}
+
 
 export const updateCookie = (key: string, value: any) => {
   Cookies.set(key, value, { expires: 30 })

@@ -12,7 +12,7 @@ const ActionButtonList = ({ actionIconButtonList, updateActionButtonList }: Acti
     return (<>
         {
             actionIconButtonList.list.map((buttonItem) => (
-                <CenterContainer>
+                <CenterContainer key={buttonItem.id}>
                     <buttonItem.Element
                         size="2rem"
                         color={buttonItem.active ? '#3b82f6' : 'grey'}

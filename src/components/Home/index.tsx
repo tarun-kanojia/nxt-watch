@@ -4,11 +4,13 @@ import { VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
 import { filterList } from '../../util/ComponentMethods';
 import Header from '../Header';
-import { getCookie, LOCAL_STORAGE } from '../Login/StorageUtil';
+import { getCookie } from '../../util/storage/StorageUtil';
 import PrimeBanner from '../PrimeBanner';
 import SearchBar from '../SearchBar';
 import VideoCardList from '../VideoCardList';
 import { HomeContainer } from './style';
+import { getVideoListFromStore, updateVideoListToStore } from '../../util/storage/VideoListStore';
+import { LOCAL_STORAGE } from '../../util/storage/constant';
 
 const Home = () => {
     const [querry, setQuerry] = useState('')
@@ -24,23 +26,36 @@ const Home = () => {
         console.log(querry)
     }
 
+    const updateVideoDataList = (list:Object) => {
+        console.log('store home video list',list);
+        // setVideoDataList(list)
+    }
+
     const getVideoList = async () => {
         try {
+            const list:VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
+            if(list){
+                const listData = new VideoList(list);
+                setVideoDataList(listData);
 
-            const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN)
-            const requestOption = {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                    "Content-Type": "application/json"
-                },
-                
-                method: 'GET'
+            }else{
 
+                const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN)
+                const requestOption = {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                        "Content-Type": "application/json"
+                    },
+                    
+                    method: 'GET'
+                    
+                }
+                const listResponse = await fetch(ALL_VIDEOS_URL, requestOption);
+                const listDataResponse:VideoListResponse = await listResponse.json();
+                updateVideoListToStore(LOCAL_STORAGE.HOME_VIDEO_LIST, listDataResponse);
+                const listData = new VideoList(listDataResponse);
+                setVideoDataList(listData)
             }
-            const listResponse = await fetch(ALL_VIDEOS_URL, requestOption);
-            const listData:VideoListResponse = await listResponse.json();
-            setVideoDataList(new VideoList(listData))
-            
             
 
         } catch (error) {

@@ -13,7 +13,7 @@ interface VideoCardProps {
 
 export const VideoCard = ({ videoItem }: VideoCardProps) => {
     const navigate = useNavigate();
-    console.log((new Date().getTime() - new Date(videoItem.publishedAt).getTime()))
+    // console.log((new Date().getTime() - new Date(videoItem.publishedAt).getTime()))
     return (
         <Link to={`/videos/${videoItem.id}`}>
             <VideoCardWrapper>

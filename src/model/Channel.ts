@@ -9,4 +9,6 @@ export class Channel {
         this.profileImageUrl = channelItem.profile_image_url;
         this.subscriberCount = channelItem.subscriber_count
     }
+
+    
 }

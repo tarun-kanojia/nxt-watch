@@ -5,7 +5,8 @@ import { GAMING_VIDEO_URL } from '../../constants/endPoints';
 import { GamingVideoList } from '../../model/GamingVideoList';
 import { GamingVideoListResponse, VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
-import { getCookie, LOCAL_STORAGE } from '../Login/StorageUtil';
+import { LOCAL_STORAGE } from '../../util/storage/constant';
+import { getCookie } from '../../util/storage/StorageUtil';
 import PageHeader from '../PageHeader';
 import { GamingContainer, GamingVideoCardWrapper, GamingVideosContainer, GamingVideoThumbnail, LiveWatching, VideoDescription, VideoTitle } from './style';
 
@@ -37,9 +38,8 @@ const Gaming = ({ }) => {
         }
     }
 
-    console.log(videoDataList)
-
     useEffect(() => {
+        
         getVideoList();
     }, [])
     return (

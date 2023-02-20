@@ -1,5 +1,6 @@
 import React, { createContext } from 'react'
-import { deleteCookie, getCookie, LOCAL_STORAGE, updateCookie } from '../components/Login/StorageUtil'
+import { LOCAL_STORAGE } from '../util/storage/constant';
+import { deleteCookie, getCookie, updateCookie } from '../util/storage/StorageUtil'
 
 export class  jwtTokenModel{
     token:string;

@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { JWTTokenContext } from '../../hooks/JWTTokenContext';
 import { ThemeContextHook } from '../../hooks/ThemeContext';
-import { deleteCookie, LOCAL_STORAGE } from '../Login/StorageUtil';
+import { LOCAL_STORAGE } from '../../util/storage/constant';
+import { deleteCookie} from '../../util/storage/StorageUtil';
 import { HeaderComponents, HeaderContainer, LogoContainer, LogOutButton, ProfileLogo, ThemeChanger, ThemeChangerLogo } from './style';
 
 

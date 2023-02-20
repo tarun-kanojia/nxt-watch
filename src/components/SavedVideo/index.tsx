@@ -1,5 +1,9 @@
 import React, { useContext } from 'react'
 import { SavedVideosContext } from '../../hooks/SavedVideos';
+import { VideoListResponse } from '../../model/types';
+import { VideoList } from '../../model/VideoList';
+import VideoCardListHorizontal from '../VideoCardListHorizontal';
+import { SavedVideoContainer } from './style';
 
 interface SavedVideoProps {
 
@@ -7,11 +11,15 @@ interface SavedVideoProps {
 
 const SavedVideo = ({}) => {
     const videoList = useContext(SavedVideosContext);
-    return ( <>
+    const totalVideos = new VideoList();
+    totalVideos.total = (videoList ? videoList.savedVideos.length.toString() : '0');
+    totalVideos.videos = (videoList ? videoList.savedVideos : []);
+
+    return ( <SavedVideoContainer>
         {   videoList === null ? null
-            :videoList.savedVideos.map((video) => <h1>{video.id}</h1>) 
+            :<VideoCardListHorizontal videoDataList={totalVideos}/>
         }
-    </> );
+    </SavedVideoContainer> );
 }
 
 export default SavedVideo;

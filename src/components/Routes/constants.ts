@@ -2,7 +2,7 @@ import Gaming from "../Gaming";
 import Home from "../Home";
 import SavedVideo from "../SavedVideo";
 import Trending from "../Trending";
-import Video from "../VideoComponent";
+import VideoComponent from "../VideoComponent";
 
 export const ROUTES = [
     {
@@ -28,7 +28,7 @@ export const ROUTES = [
 
     {
         path: "/videos/:id",
-        element: Video,
+        element: VideoComponent,
 
     },
 
