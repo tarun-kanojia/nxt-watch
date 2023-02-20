@@ -2,8 +2,9 @@ import React, { useReducer, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 import { LoginMetaData } from '../../model/LoginMetaData';
 import LoginForm from './LoginForm';
-import { getCookie, LOCAL_STORAGE } from './StorageUtil';
+import { getCookie } from '../../util/storage/StorageUtil';
 import { CenterContainer, LoginFormContainer } from './style';
+import { LOCAL_STORAGE } from '../../util/storage/constant';
 
 export enum LoginReducerAction {
     CHANGE_USERNAME = 'change_username',

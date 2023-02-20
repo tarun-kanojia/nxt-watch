@@ -3,10 +3,11 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import DashBoard from '../DashBoard';
 import Header from '../Header';
 import Login from '../Login';
-import { getCookie, LOCAL_STORAGE } from '../Login/StorageUtil';
+import { getCookie} from '../../util/storage/StorageUtil';
 import NotFound from '../NotFound';
 import ProtectedRoute from '../ProtectedRoute';
 import { ROUTES } from '../Routes/constants';
+import { LOCAL_STORAGE } from '../../util/storage/constant';
 
 const Router = () => {
     const th = () => {

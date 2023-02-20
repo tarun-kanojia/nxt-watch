@@ -18,7 +18,7 @@ export const TrendingContainer = styled.section`
 `;
 export const VideoCardsContainer = styled.section`
     display: grid;
-    margin: auto;
+    margin: 10px auto auto auto;
     width: 80%;
 
     row-gap: 20px;

@@ -16,10 +16,11 @@ import RenderRoutes from './components/Routes';
 import { ThemeProvider } from 'styled-components';
 import { ThemContextModel } from './hooks/module/ThemeContext';
 import { ThemeContextHook } from './hooks/ThemeContext';
-import { getCookie, LOCAL_STORAGE } from './components/Login/StorageUtil';
+import { getCookie } from './util/storage/StorageUtil';
 import { JWTTokenContext, jwtTokenModel } from './hooks/JWTTokenContext';
 import Router from './components/Router';
-import Video from './components/VideoComponent';
+import { Video } from './model/Video';
+import { SavedVideosContext } from './hooks/SavedVideos';
 
 
 
@@ -30,7 +31,7 @@ export let THEME_LIGHT = {
   PROFILE_LOGO: "https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png ",
   BACKGROUND_COLOR: ' #ffffff',
   PAGE_BACKGROUND_COLOR: '#eeee',
-  PAGE_BANNER_BG_COLOR:'  #dfdfdf',
+  PAGE_BANNER_BG_COLOR: '  #dfdfdf',
   LABEL: '#909090',
   INPUT: '#0f0f0f',
   LOGIN_BTN_BG_COLOR: '#3b82f6',
@@ -42,8 +43,8 @@ export let THEME_LIGHT = {
   SEARCH_BAR_BORDER_COLOR: '#929292',
   DASH_BOARD_TXT_COLOR: '#606060',
   DASH_BOARD_COLOR: '#fffff',
-  SUBSCRIBER_COUNT_TXT_SIZE:'smaller',
-  DESCRIPTION_FONT_SIZE:'medium'
+  SUBSCRIBER_COUNT_TXT_SIZE: 'smaller',
+  DESCRIPTION_FONT_SIZE: 'medium'
 
 }
 
@@ -52,7 +53,7 @@ export let THEME_DARK = {
   THEME_TOGGLER: "https://img.icons8.com/ios11/600/FFFFFF/sun.png",
   BACKGROUND_COLOR: ' #231f20',
   PAGE_BACKGROUND_COLOR: '#0f0f0f',
-  PAGE_BANNER_BG_COLOR:' #212121',
+  PAGE_BANNER_BG_COLOR: ' #212121',
   LABEL: '#f8fafc',
   INPUT: '#ffffff',
   SHOW_PASSWORD: '#f8fafc',
@@ -65,19 +66,36 @@ export let THEME_DARK = {
   SEARCH_BAR_BACKGROUND: '#0f0f0f',
   DASH_BOARD_TXT_COLOR: '#ffffff',
   DASH_BOARD_COLOR: '#231f20',
-  SUBSCRIBER_COUNT_TXT_SIZE:'smaller',
-  DESCRIPTION_FONT_SIZE:'medium'
+  SUBSCRIBER_COUNT_TXT_SIZE: 'smaller',
+  DESCRIPTION_FONT_SIZE: 'medium'
 }
 
 
 function App() {
   const [theme, setTheme] = useState('light')
-  const [jwtToken, setJwtToken] = useState(getCookie(LOCAL_STORAGE.JWT_TOKEN))
-  
+  // const [jwtToken, setJwtToken] = useState(getCookie(LOCAL_STORAGE.JWT_TOKEN))
+  const [savedVideos, setSavedVideos] = useState<Video[]>([])
+
+  const updateSaveVideoList = (data: Video) => {
+    let newSavedVideoList = [...savedVideos];
+    if(!newSavedVideoList.some((video) => video.id === data.id)){
+      newSavedVideoList.push(data)
+    }else {
+      newSavedVideoList = newSavedVideoList.filter((video) => video.id !== data.id)
+    }
+    console.log(newSavedVideoList);
+    setSavedVideos(newSavedVideoList);
+  }
+
+
+
+
   return (
-   
+
     <BrowserRouter>
-      <JWTTokenContext.Provider value={{ jwtToken: jwtToken, setToken: setJwtToken }}>
+      {/* <JWTTokenContext.Provider value={{ jwtToken: jwtToken, setToken: setJwtToken }}> */}
+      <SavedVideosContext.Provider value={{savedVideos, updateSaveVideoList}}>
+
 
         <ThemeContextHook.Provider value={{ active: theme, toggleTheme: setTheme }}>
 
@@ -98,7 +116,7 @@ function App() {
                   } />
                 )
               })}
-              
+
 
               <Route path='/not-found' element={<NotFound />} />
               <Route path='*' element={<Navigate to='/not-found' replace />} />
@@ -106,7 +124,8 @@ function App() {
             </Routes>
           </ThemeProvider>
         </ThemeContextHook.Provider>
-      </JWTTokenContext.Provider>
+        {/* </JWTTokenContext.Provider> */}
+      </SavedVideosContext.Provider>
     </BrowserRouter>
   );
 }
