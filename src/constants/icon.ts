@@ -4,3 +4,4 @@ export const BANNER_IMG = 'https://assets.ccbp.in/frontend/react-js/nxt-watch-ba
 export const LOGO_URL = 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png';
 
 export const HOME_PAGE_ERROR_LIGHT ='https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png'
+export const SAVED_VIDEO_EMPTY_PAGE ='https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png';
