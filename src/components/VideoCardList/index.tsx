@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Video } from '../../model/Video';
 import { VideoList } from '../../model/VideoList';
 import EmptyVideoList from '../EmptyVideoList';
+import { PageWrapper } from '../Home/style';
 import VideoCard from '../VideoCard';
 import { VideoCardListWrapper } from './style';
 

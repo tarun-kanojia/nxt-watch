@@ -8,6 +8,7 @@ import { LOCAL_STORAGE } from '../../util/storage/constant'
 import { getCookie } from '../../util/storage/StorageUtil'
 import ErrorComponent from '../ErrorComponent'
 import { Render } from '../Home'
+import { PageWrapper } from '../Home/style'
 import Loader from '../Loader'
 import PageHeader from '../PageHeader'
 import VideoCardList from '../VideoCardList'
@@ -54,18 +55,18 @@ const Trending = () => {
 
    const TrendingPage = () => {
       return (
-         <TrendingPageWrapper>
+         <>
             <PageHeader Icon={FaFire} title='Trending' />
             <TrendingContainer>
                <VideoCardListHorizontal videoDataList={videoDataList} />
             </TrendingContainer>
-         </TrendingPageWrapper>
+         </>
       )
    }
 
-   return (<>
+   return (<PageWrapper>
       {Render(errorStatus, TrendingPage(), getVideoList)}
-   </>
+   </PageWrapper>
    )
 
    

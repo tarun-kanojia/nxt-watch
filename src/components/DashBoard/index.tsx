@@ -21,19 +21,21 @@ const DashBoardContent = ({ dashBoardList, updateDashBoardList }: DashBoardConte
             dashBoardList.list.map((item) => {
                const Element = item.icon;
                return (
-                  <DashBoardElement key={item.id}>
+                  <DashBoardElement key={item.id}
+                     onClick={() => {
+
+                        dashBoardList.toggleActiveStatus(item.id);
+                        updateDashBoardList(new DashBoardContentModel(dashBoardList));
+                        navigate(item.path)
+
+                     }}
+                  >
                      <ElementLogo>
                         <Element size='100%' color={item.active ? 'red' : '#606060'} />
                      </ElementLogo>
                      <ElementText
                         active={item.active}
-                        onClick={() => {
 
-                           dashBoardList.toggleActiveStatus(item.id);
-                           updateDashBoardList(new DashBoardContentModel(dashBoardList));
-                           navigate(item.path)
-
-                        }}
                      >{item.title}
                      </ElementText>
                   </DashBoardElement>)
@@ -54,9 +56,9 @@ const DashBoard = () => {
       console.log(currUrl.pathname);
       let dashBoardContent = new DashBoardContentModel(DASH_BOARD_CONTENT);
       dashBoardContent.list = dashBoardContent.list.map((content) => {
-         content.path === currUrl.pathname 
-         ? content.active = true
-         :content.active = false;
+         content.path === currUrl.pathname
+            ? content.active = true
+            : content.active = false;
 
          return content;
       })

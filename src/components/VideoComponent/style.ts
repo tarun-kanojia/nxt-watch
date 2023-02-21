@@ -12,6 +12,13 @@ export const VideoContainer = styled.section`
     position: fixed;
     left: 22%;
     top: 109px;
+
+    @media screen and (max-width:670px){
+       width: 98%;
+       left: 0%;
+       
+
+    }
 `;
 
 export const YoutubeEmbed = styled(YouTube)`

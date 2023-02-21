@@ -10,6 +10,7 @@ import { LOCAL_STORAGE } from '../../util/storage/constant';
 import { getCookie } from '../../util/storage/StorageUtil';
 import ErrorComponent from '../ErrorComponent';
 import { Render } from '../Home';
+import { PageWrapper } from '../Home/style';
 import Loader from '../Loader';
 import { StyledLink } from '../Login/style';
 import PageHeader from '../PageHeader';
@@ -82,13 +83,13 @@ const Gaming = ({ }) => {
         if (videoDataList !== null) {
 
             return (
-                <GamingContainer>
+                <>
                     <PageHeader Icon={FaGamepad} title='Gaming' />
                     <GamingVideosContainer>
                         {renderGamingVideoList(videoDataList)}
 
                     </GamingVideosContainer>
-                </GamingContainer>
+                </>
             );
 
         }
@@ -97,7 +98,7 @@ const Gaming = ({ }) => {
 
     }
 
-    return <>{Render(errorStatus, GamingPage(), getVideoList)}</>
+    return <PageWrapper>{Render(errorStatus, GamingPage(), getVideoList)}</PageWrapper>
 }
 
 export default Gaming;
