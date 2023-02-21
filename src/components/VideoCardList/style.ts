@@ -10,6 +10,7 @@ export const VideoCardListWrapper = styled.section`
     align-items: flex-start;
     justify-content: space-evenly;
     height: 100%;
+    width: 100%;
     padding: 1rem;
     overflow: scroll;
    

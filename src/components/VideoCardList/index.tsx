@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Video } from '../../model/Video';
 import { VideoList } from '../../model/VideoList';
+import EmptyVideoList from '../EmptyVideoList';
 import VideoCard from '../VideoCard';
 import { VideoCardListWrapper } from './style';
 
@@ -14,26 +15,26 @@ interface VideoCardListProps {
 const VideoCardList = ({ videoList }: VideoCardListProps) => {
     const navigate = useNavigate();
     const renderVideoCards = (videoList: Video[]) => {
-        return (videoList ?
-            <>
+        return (videoList.length ?
+
+            <VideoCardListWrapper>
                 {
                     videoList.map((videoItem) => (
                         <VideoCard key={videoItem.id}
                             videoItem={videoItem}
-                            
+
                         />
                     ))
                 }
-            </>
-            : null
+            </VideoCardListWrapper>
+
+            : <EmptyVideoList />
         )
     }
 
-    return (
-        <VideoCardListWrapper>
-            {renderVideoCards(videoList)}
-        </VideoCardListWrapper>
-    );
+    return (<>
+        {renderVideoCards(videoList)}
+    </>);
 }
 
 export default VideoCardList;

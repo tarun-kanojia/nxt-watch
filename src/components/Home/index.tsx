@@ -22,7 +22,7 @@ export const Render = (
 
     SuccessComponent: React.ReactNode,
     retryFunction: Function) => {
-        console.log('ErrorStatus',errorStatus)
+        
     switch (errorStatus) {
         case ERROR_STATUS.PRESENT:
             return (<>

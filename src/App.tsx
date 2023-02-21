@@ -25,7 +25,7 @@ import { SavedVideosContext } from './hooks/SavedVideos';
 
 
 export let THEME_LIGHT = {
-
+  NAME:'LIGHT',
   LOGO_URL: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png',
   THEME_TOGGLER: "https://img.icons8.com/glyph-neue/256/bright-moon.png",
   PROFILE_LOGO: "https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png ",
@@ -50,6 +50,7 @@ export let THEME_LIGHT = {
 }
 
 export let THEME_DARK = {
+  NAME:'DARK',
   LOGO_URL: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png',
   THEME_TOGGLER: "https://img.icons8.com/ios11/600/FFFFFF/sun.png",
   BACKGROUND_COLOR: ' #231f20',
