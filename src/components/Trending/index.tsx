@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { FaFire } from 'react-icons/fa'
 import { TRENDING_VIDEO_URL } from '../../constants/endPoints'
+import { ERROR_STATUS } from '../../constants/errorStatus'
 import { VideoListResponse } from '../../model/types'
 import { VideoList } from '../../model/VideoList'
 import { LOCAL_STORAGE } from '../../util/storage/constant'
 import { getCookie } from '../../util/storage/StorageUtil'
+import ErrorComponent from '../ErrorComponent'
 import { Render } from '../Home'
 import Loader from '../Loader'
 import PageHeader from '../PageHeader'
@@ -14,7 +16,13 @@ import { TrendingContainer, TrendingPageWrapper } from './style'
 
 const Trending = () => {
    // console.log('Inside trending')
+   const [errorStatus, setErrorStatus] = useState(ERROR_STATUS.IN_PROGRESS)
    const [videoDataList, setVideoDataList] = useState({})
+
+   const updateErrorStatus = (status:string) => {
+     setErrorStatus(status);
+   }
+
    const getVideoList = async () => {
       try {
 
@@ -31,9 +39,10 @@ const Trending = () => {
          const listResponse = await fetch(TRENDING_VIDEO_URL, requestOption);
          const listData: VideoListResponse = await listResponse.json();
          setVideoDataList(new VideoList(listData))
-
+         window.setTimeout(() => setErrorStatus(ERROR_STATUS.PRESENT), 1000);
 
       } catch (error) {
+         setErrorStatus(ERROR_STATUS.FAILED)
          console.log(error)
       }
    }
@@ -55,19 +64,11 @@ const Trending = () => {
    }
 
    return (<>
-      {Render("errorStatus", <Loader />, TrendingPage(), <>RETRY</>)}
+      {Render(errorStatus, TrendingPage(), getVideoList)}
    </>
    )
 
-   return (
-      <TrendingPageWrapper>
-         <PageHeader Icon={FaFire} title='Trending' />
-         <TrendingContainer>
-
-            <VideoCardListHorizontal videoDataList={videoDataList} />
-         </TrendingContainer>
-      </TrendingPageWrapper>
-   );
+   
 }
 
 export default Trending;

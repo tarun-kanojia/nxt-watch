@@ -19,9 +19,9 @@ import ErrorComponent from '../ErrorComponent';
 
 export const Render = (
     errorStatus: string,
-    Loader: React.ReactNode,
+
     SuccessComponent: React.ReactNode,
-    FailureComponent: React.ReactNode) => {
+    retryFunction: Function) => {
     switch (errorStatus) {
         case ERROR_STATUS.PRESENT:
             return (<>
@@ -29,14 +29,14 @@ export const Render = (
             </>)
 
         case ERROR_STATUS.IN_PROGRESS:
-            return Loader
+            return <Loader />
 
         case ERROR_STATUS.FAILED:
             return <HomeContainer>
-                {FailureComponent}
+                <ErrorComponent getVideoList={retryFunction} />
             </HomeContainer>
 
-        default: return <></>
+        default: return <>Default</>
     }
 }
 
@@ -96,36 +96,28 @@ const Home = () => {
             updateErrorStatus(ERROR_STATUS.FAILED);
         }
     }
-    
-    
+
+
     useEffect(() => {
         getVideoList();
-        
+
     }, [])
-    
-    
 
-    const renderComponent = () => {
-        switch (errorStatus) {
-            case ERROR_STATUS.PRESENT:
-                return (<>
-                    <HomeContainer>
-                        {showPrimeBanner ? <PrimeBanner hidePrimeBanner={hidePrimeBanner} /> : null}
-                        <SearchBar querry={querry} updateQuerry={updateQuerry} />
-                        <VideoCardList videoList={filterList(querry, videoDataList)} />
-                    </HomeContainer>
-                </>)
-
-            case ERROR_STATUS.IN_PROGRESS:
-                return <Loader />
-
-            case ERROR_STATUS.FAILED:
-                return <HomeContainer> <ErrorComponent getVideoList={getVideoList} /></HomeContainer>
-
-            default: return <></>
-        }
+    const HomePage = () => {
+        return (
+            <>
+                <HomeContainer>
+                    {showPrimeBanner ? <PrimeBanner hidePrimeBanner={hidePrimeBanner} /> : null}
+                    <SearchBar querry={querry} updateQuerry={updateQuerry} />
+                    <VideoCardList videoList={filterList(querry, videoDataList)} />
+                </HomeContainer>
+            </>
+        )
     }
-    return (renderComponent());
+
+    return <>{Render(errorStatus, HomePage(), getVideoList)}</>
+
+    
 
 
 }
