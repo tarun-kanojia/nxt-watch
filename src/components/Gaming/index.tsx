@@ -50,7 +50,7 @@ const Gaming = ({ }) => {
 
                     {
                         videoDataList.videos.map((videoItem) => (
-                            <Link to={`/videos/${videoItem.id}`}>
+                            <Link key={videoItem.id} to={`/videos/${videoItem.id}`}>
                                 <GamingVideoCardWrapper key={videoItem.id}>
                                     <GamingVideoThumbnail src={videoItem.thumbnailUrl} />
                                     <VideoDescription>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { ALL_VIDEOS_URL } from '../../constants/endPoints';
 import { VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
@@ -11,14 +11,42 @@ import VideoCardList from '../VideoCardList';
 import { HomeContainer } from './style';
 import { getVideoListFromStore, updateVideoListToStore } from '../../util/storage/VideoListStore';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
+import HomeError from '../Loader';
+import { ErrorContainer } from '../Loader/style';
+import Loader from '../Loader';
+import { ERROR_STATUS } from '../../constants/errorStatus';
+import ErrorComponent from '../ErrorComponent';
+
+export const Render = (
+    errorStatus: string,
+    Loader: React.ReactNode,
+    SuccessComponent: React.ReactNode,
+    FailureComponent: React.ReactNode) => {
+    switch (errorStatus) {
+        case ERROR_STATUS.PRESENT:
+            return (<>
+                {SuccessComponent}
+            </>)
+
+        case ERROR_STATUS.IN_PROGRESS:
+            return Loader
+
+        case ERROR_STATUS.FAILED:
+            return <HomeContainer>
+                {FailureComponent}
+            </HomeContainer>
+
+        default: return <></>
+    }
+}
 
 const Home = () => {
     const [querry, setQuerry] = useState('')
     const [videoDataList, setVideoDataList] = useState<VideoList>({});
     const [showPrimeBanner, setShowPrimeBanner] = useState(true);
-    
+    const [errorStatus, setErrorStatus] = useState(ERROR_STATUS.IN_PROGRESS)
     const hidePrimeBanner = () => {
-      setShowPrimeBanner(false);
+        setShowPrimeBanner(false);
     }
 
     const updateQuerry = (text: string) => {
@@ -26,19 +54,23 @@ const Home = () => {
         console.log(querry)
     }
 
-    const updateVideoDataList = (list:Object) => {
-        console.log('store home video list',list);
+    const updateVideoDataList = (list: Object) => {
+        console.log('store home video list', list);
         // setVideoDataList(list)
+    }
+
+    const updateErrorStatus = (status: string) => {
+        setErrorStatus(status);
     }
 
     const getVideoList = async () => {
         try {
-            const list:VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
-            if(list){
+            const list: VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
+            if (list) {
                 const listData = new VideoList(list);
                 setVideoDataList(listData);
 
-            }else{
+            } else {
 
                 const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN)
                 const requestOption = {
@@ -46,34 +78,56 @@ const Home = () => {
                         Authorization: `Bearer ${jwtToken}`,
                         "Content-Type": "application/json"
                     },
-                    
+
                     method: 'GET'
-                    
+
                 }
                 const listResponse = await fetch(ALL_VIDEOS_URL, requestOption);
-                const listDataResponse:VideoListResponse = await listResponse.json();
+                const listDataResponse: VideoListResponse = await listResponse.json();
                 updateVideoListToStore(LOCAL_STORAGE.HOME_VIDEO_LIST, listDataResponse);
                 const listData = new VideoList(listDataResponse);
-                setVideoDataList(listData)
+                setVideoDataList(listData);
             }
-            
+
+            window.setTimeout(() => updateErrorStatus(ERROR_STATUS.PRESENT), 1000);
 
         } catch (error) {
             console.log(error)
+            updateErrorStatus(ERROR_STATUS.FAILED);
         }
     }
-
-
-    useEffect(()=>{
+    
+    
+    useEffect(() => {
         getVideoList();
-    },[])
+        
+    }, [])
+    
+    
 
-    return (
-        <HomeContainer>
-        {showPrimeBanner ? <PrimeBanner hidePrimeBanner = {hidePrimeBanner}/> : null}
-        <SearchBar querry={querry} updateQuerry={updateQuerry} />
-        <VideoCardList videoList={filterList(querry, videoDataList)}/>
-    </HomeContainer>);
+    const renderComponent = () => {
+        switch (errorStatus) {
+            case ERROR_STATUS.PRESENT:
+                return (<>
+                    <HomeContainer>
+                        {showPrimeBanner ? <PrimeBanner hidePrimeBanner={hidePrimeBanner} /> : null}
+                        <SearchBar querry={querry} updateQuerry={updateQuerry} />
+                        <VideoCardList videoList={filterList(querry, videoDataList)} />
+                    </HomeContainer>
+                </>)
+
+            case ERROR_STATUS.IN_PROGRESS:
+                return <Loader />
+
+            case ERROR_STATUS.FAILED:
+                return <HomeContainer> <ErrorComponent getVideoList={getVideoList} /></HomeContainer>
+
+            default: return <></>
+        }
+    }
+    return (renderComponent());
+
+
 }
 
 export default Home;

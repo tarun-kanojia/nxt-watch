@@ -4,11 +4,13 @@ import { TRENDING_VIDEO_URL } from '../../constants/endPoints'
 import { VideoListResponse } from '../../model/types'
 import { VideoList } from '../../model/VideoList'
 import { LOCAL_STORAGE } from '../../util/storage/constant'
-import { getCookie} from '../../util/storage/StorageUtil'
+import { getCookie } from '../../util/storage/StorageUtil'
+import { Render } from '../Home'
+import Loader from '../Loader'
 import PageHeader from '../PageHeader'
 import VideoCardList from '../VideoCardList'
 import VideoCardListHorizontal from '../VideoCardListHorizontal'
-import { TrendingContainer, TrendinPageWrapper } from './style'
+import { TrendingContainer, TrendingPageWrapper } from './style'
 
 const Trending = () => {
    // console.log('Inside trending')
@@ -40,15 +42,31 @@ const Trending = () => {
    useEffect(() => {
       getVideoList();
    }, [])
-   console.log(videoDataList)
+
+   const TrendingPage = () => {
+      return (
+         <TrendingPageWrapper>
+            <PageHeader Icon={FaFire} title='Trending' />
+            <TrendingContainer>
+               <VideoCardListHorizontal videoDataList={videoDataList} />
+            </TrendingContainer>
+         </TrendingPageWrapper>
+      )
+   }
+
+   return (<>
+      {Render("errorStatus", <Loader />, TrendingPage(), <>RETRY</>)}
+   </>
+   )
+
    return (
-      <TrendinPageWrapper>
-         <PageHeader Icon={FaFire} title='Trending'/>
+      <TrendingPageWrapper>
+         <PageHeader Icon={FaFire} title='Trending' />
          <TrendingContainer>
 
             <VideoCardListHorizontal videoDataList={videoDataList} />
          </TrendingContainer>
-      </TrendinPageWrapper>
+      </TrendingPageWrapper>
    );
 }
 

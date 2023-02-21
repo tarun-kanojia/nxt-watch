@@ -1,5 +1,5 @@
 import styled from "styled-components";
-export const TrendinPageWrapper = styled.section`
+export const TrendingPageWrapper = styled.section`
     display: flex;
     flex-direction: column;
     align-items: start;

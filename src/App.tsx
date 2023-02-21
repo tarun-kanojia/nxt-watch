@@ -44,8 +44,9 @@ export let THEME_LIGHT = {
   DASH_BOARD_TXT_COLOR: '#606060',
   DASH_BOARD_COLOR: '#fffff',
   SUBSCRIBER_COUNT_TXT_SIZE: 'smaller',
-  DESCRIPTION_FONT_SIZE: 'medium'
-
+  DESCRIPTION_FONT_SIZE: 'medium',
+  RETRY_BACKGROUND_BUTTON:' #4f46e5',
+  RETRY_BUTTON_COLOR:'#ffffff'
 }
 
 export let THEME_DARK = {
@@ -67,7 +68,10 @@ export let THEME_DARK = {
   DASH_BOARD_TXT_COLOR: '#ffffff',
   DASH_BOARD_COLOR: '#231f20',
   SUBSCRIBER_COUNT_TXT_SIZE: 'smaller',
-  DESCRIPTION_FONT_SIZE: 'medium'
+  DESCRIPTION_FONT_SIZE: 'medium',
+  RETRY_BACKGROUND_BUTTON:' #4f46e5',
+  RETRY_BUTTON_COLOR:'#ffffff'
+  
 }
 
 
