@@ -1,0 +1,5 @@
+export const ERROR_STATUS = {
+    IN_PROGRESS : 'IN_PROGRESS',
+    PRESENT: 'PRESENT',
+    FAILED:'FAILED'
+}

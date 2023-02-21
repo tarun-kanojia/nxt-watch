@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { FaGamepad } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { GAMING_VIDEO_URL } from '../../constants/endPoints';
+import { ERROR_STATUS } from '../../constants/errorStatus';
 import { GamingVideoList } from '../../model/GamingVideoList';
 import { GamingVideoListResponse, VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
 import { getCookie } from '../../util/storage/StorageUtil';
+import ErrorComponent from '../ErrorComponent';
+import { Render } from '../Home';
+import Loader from '../Loader';
 import PageHeader from '../PageHeader';
 import { GamingContainer, GamingVideoCardWrapper, GamingVideosContainer, GamingVideoThumbnail, LiveWatching, VideoDescription, VideoTitle } from './style';
 
@@ -15,7 +19,13 @@ interface GamingProps {
 }
 
 const Gaming = ({ }) => {
-    const [videoDataList, setVideoDataList] = useState<GamingVideoList | null>(null)
+    const [errorStatus, setErrorStatus] = useState(ERROR_STATUS.IN_PROGRESS)
+    const [videoDataList, setVideoDataList] = useState<GamingVideoList>()
+
+    const updateErrorStatus = (status: string) => {
+        setErrorStatus(status);
+    }
+
     const getVideoList = async () => {
         try {
 
@@ -31,26 +41,22 @@ const Gaming = ({ }) => {
             }
             const listResponse = await fetch(GAMING_VIDEO_URL, requestOption);
             const listData: GamingVideoListResponse = await listResponse.json();
-            setVideoDataList(new GamingVideoList(listData))
+            setVideoDataList(new GamingVideoList(listData));
+            window.setTimeout(() => updateErrorStatus(ERROR_STATUS.PRESENT), 1000);
 
         } catch (error) {
+            updateErrorStatus(ERROR_STATUS.FAILED)
             console.log(error)
         }
     }
 
-    useEffect(() => {
-        
-        getVideoList();
-    }, [])
-    return (
-        videoDataList === null ? null
-            : <GamingContainer>
-                <PageHeader Icon={FaGamepad} title='Gaming' />
-                <GamingVideosContainer>
-
-                    {
-                        videoDataList.videos.map((videoItem) => (
-                            <Link to={`/videos/${videoItem.id}`}>
+    const renderGamingVideoList = (list ?: GamingVideoList) => {
+        return (
+            <>
+                {
+                    list ?
+                        list.videos.map((videoItem) => (
+                            <Link key={videoItem.id} to={`/videos/${videoItem.id}`}>
                                 <GamingVideoCardWrapper key={videoItem.id}>
                                     <GamingVideoThumbnail src={videoItem.thumbnailUrl} />
                                     <VideoDescription>
@@ -60,9 +66,37 @@ const Gaming = ({ }) => {
                                 </GamingVideoCardWrapper>
                             </Link>
                         ))
-                    }
-                </GamingVideosContainer>
-            </GamingContainer>);
+                        : <></>
+                }
+            </>
+        )
+    }
+
+    useEffect(() => {
+
+        getVideoList();
+    }, [])
+
+    const GamingPage = () => {
+        if (videoDataList !== null) {
+
+            return (
+                <GamingContainer>
+                    <PageHeader Icon={FaGamepad} title='Gaming' />
+                    <GamingVideosContainer>
+                        {renderGamingVideoList(videoDataList)}
+
+                    </GamingVideosContainer>
+                </GamingContainer>
+            );
+
+        }
+        updateErrorStatus(ERROR_STATUS.FAILED);
+        return <></>
+
+    }
+
+    return <>{Render(errorStatus, GamingPage(), getVideoList)}</>
 }
 
 export default Gaming;
