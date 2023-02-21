@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { SavedVideosType } from '../../hooks/SavedVideos';
 import { VideoList } from '../../model/VideoList';
 import { getDuration } from '../../util/DateFunction';
+import { StyledLink } from '../Login/style';
 import { VideoCardsContainer } from '../Trending/style';
 import { CardImg, ChannelName, DurationTillRelease, TrendingVideoCardWrapper, VideoAnalyticsWrapper, VideoCardDetailsWrapper, VideoCardTitle, VideoViews } from './style';
 
@@ -15,7 +16,7 @@ export const VideoCardListHorizontal = ({ videoDataList }: VideoCardListHorizont
     return (<VideoCardsContainer>
         {videoDataList.videos == undefined ? null
             : videoDataList.videos.map((videoItem) => (
-                <Link to={`/videos/${videoItem.id}`} key={videoItem.id}>
+                <StyledLink to={`/videos/${videoItem.id}`} key={videoItem.id}>
                     <TrendingVideoCardWrapper>
                         <CardImg src={videoItem.thumbnailUrl} />
                         <VideoCardDetailsWrapper>
@@ -28,7 +29,7 @@ export const VideoCardListHorizontal = ({ videoDataList }: VideoCardListHorizont
                             </VideoAnalyticsWrapper>
                         </VideoCardDetailsWrapper>
                     </TrendingVideoCardWrapper>
-                </Link>
+                </StyledLink>
             ))
         }
     </VideoCardsContainer>);

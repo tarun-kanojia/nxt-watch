@@ -11,6 +11,7 @@ import { getCookie } from '../../util/storage/StorageUtil';
 import ErrorComponent from '../ErrorComponent';
 import { Render } from '../Home';
 import Loader from '../Loader';
+import { StyledLink } from '../Login/style';
 import PageHeader from '../PageHeader';
 import { GamingContainer, GamingVideoCardWrapper, GamingVideosContainer, GamingVideoThumbnail, LiveWatching, VideoDescription, VideoTitle } from './style';
 
@@ -56,7 +57,7 @@ const Gaming = ({ }) => {
                 {
                     list ?
                         list.videos.map((videoItem) => (
-                            <Link key={videoItem.id} to={`/videos/${videoItem.id}`}>
+                            <StyledLink key={videoItem.id} to={`/videos/${videoItem.id}`}>
                                 <GamingVideoCardWrapper key={videoItem.id}>
                                     <GamingVideoThumbnail src={videoItem.thumbnailUrl} />
                                     <VideoDescription>
@@ -64,7 +65,7 @@ const Gaming = ({ }) => {
                                         <LiveWatching>{`${videoItem.viewCount} Watching Worldwide`}</LiveWatching>
                                     </VideoDescription>
                                 </GamingVideoCardWrapper>
-                            </Link>
+                            </StyledLink>
                         ))
                         : <></>
                 }

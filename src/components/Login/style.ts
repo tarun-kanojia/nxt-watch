@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeContext } from 'styled-components'
 import LoginForm from './LoginForm'
 
@@ -33,6 +34,10 @@ export const GlobalStyle = createGlobalStyle<GlobalProps>`
 
 
     
+`;
+
+export const StyledLink = styled(Link)`
+    text-decoration: none;
 `;
 
 interface CenterContainerProps {

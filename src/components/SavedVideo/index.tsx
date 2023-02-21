@@ -1,9 +1,11 @@
 import React, { useContext, useState } from 'react'
+import { FaFire } from 'react-icons/fa';
 import { ERROR_STATUS } from '../../constants/errorStatus';
 import { SavedVideosContext } from '../../hooks/SavedVideos';
 import { VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
 import { Render } from '../Home';
+import PageHeader from '../PageHeader';
 import SavedVideoErrorComponent from '../SavedVideoErrorComponent';
 import VideoCardListHorizontal from '../VideoCardListHorizontal';
 import { SavedVideoContainer } from './style';
@@ -31,6 +33,7 @@ const SavedVideo = ({ }) => {
             console.log('saved-videos', videoList.savedVideos)
             return (
                 <SavedVideoContainer>
+                    <PageHeader Icon={FaFire} title='Saved Videos' />
                     <VideoCardListHorizontal videoDataList={totalVideos} />
 
                 </SavedVideoContainer>
