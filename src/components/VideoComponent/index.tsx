@@ -41,7 +41,8 @@ export const getVideoResponseTypeData = (data:Video) => {
   })
 }
 
-const opts = {
+
+export const youtubeStyleOpts = {
     height: '100%',
     width: '100%',
     playerVars: {
@@ -63,12 +64,7 @@ const VideoComponent = ({ }) => {
     const [videoData, setVideoData] = useState<Video | null>(null)
     const [actionIconButtonList, setActionIconButtonList] = useState(new ActionIconButtonList(ICONS))
     const [videoSavedStatus, setVideoSavedStatus] = useState(savedVideoStatus(videoList, videoId));
-    const [videoLikeStatus, setVideoLikeStatus] = useState<LikedStatusType>(LikedStatus.INITIAL)
-
-    const updateVideoLikeStatus = (status: LikedStatusType, video: Video) => {
-
-
-    }
+  
 
     const updateVideoSavedStatus = () => {
         setVideoSavedStatus(!videoSavedStatus);
@@ -184,7 +180,7 @@ const VideoComponent = ({ }) => {
 
                 <VideoContainer>
 
-                    <YoutubeEmbed videoId={getVideoId(videoData.videoUrl)} opts={opts} />
+                    <YoutubeEmbed videoId={getVideoId(videoData.videoUrl)} opts={youtubeStyleOpts} />
                     <Title>{videoData.title}</Title>
                     <VideoActonWrapper>
                         <VideoAnalyticsWrapper>
@@ -196,7 +192,6 @@ const VideoComponent = ({ }) => {
                             <ActionButtonList
                                 actionIconButtonList={actionIconButtonList}
                                 updateActionButtonList={updateActionButtonList}
-                                updateVideoLikeStatus={updateVideoLikeStatus}
                                 video={videoData}
                                 updateVideoData={updateVideoData}
                             />

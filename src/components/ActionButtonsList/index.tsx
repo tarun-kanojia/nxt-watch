@@ -1,22 +1,18 @@
 import React from 'react'
-import { LikedStatus } from '../../constants/errorStatus';
 import { ActionIconButtonList, ActionIconButtonModel } from '../../model/ActionIconButton';
 import { Video } from '../../model/Video';
 import { patchUpdateVideoListToStore } from '../../store/videoComponentStore';
-import { updateVideoListToStore } from '../../util/storage/VideoListStore';
-import ActionIconButton from '../ActionIconButton';
 import { getVideoResponseTypeData } from '../VideoComponent';
 import { CenterContainer } from '../VideoComponent/style';
 
 interface ActionButtonListProps {
     actionIconButtonList: ActionIconButtonList;
     updateActionButtonList: Function;
-    updateVideoLikeStatus: Function;
     video: Video;
     updateVideoData: Function;
 }
 
-const ActionButtonList = ({ actionIconButtonList, updateVideoData, updateActionButtonList, video, updateVideoLikeStatus }: ActionButtonListProps) => {
+const ActionButtonList = ({ actionIconButtonList, updateVideoData, video }: ActionButtonListProps) => {
     const toggleLikeButton = (buttonItem:ActionIconButtonModel) => {
         const data = {
             ...video,

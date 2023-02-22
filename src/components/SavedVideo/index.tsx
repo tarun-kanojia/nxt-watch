@@ -40,7 +40,6 @@ const SavedVideo = ({ }) => {
                 </>
             );
         } else {
-            // updateErrorStatus(APIStatus.FAILED);
             return (<>
                 <SavedVideoErrorComponent />
             </>)

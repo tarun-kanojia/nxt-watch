@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { LoginMetaData } from '../../model/LoginMetaData';
 import LoginForm from './LoginForm';
 import { getCookie } from '../../util/storage/StorageUtil';
-import { CenterContainer, LoginFormContainer } from './style';
+import { CenterContainer} from './style';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
 
 export enum LoginReducerAction {
@@ -27,9 +27,8 @@ const loginReducer = (loginMetaData: LoginMetaData, action: LoginActionType) => 
 
 const Login = () => {
     const [loginMetaData, loginDispatch] = useReducer(loginReducer, new LoginMetaData())
-    const navigate = useNavigate();
+    
     const JWT_TOKEN = getCookie(LOCAL_STORAGE.JWT_TOKEN);
-    // console.log('jwt token',JWT_TOKEN)
     if (JWT_TOKEN && JWT_TOKEN !== '') {
         return <Navigate to='/' />
     }

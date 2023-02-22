@@ -1,14 +1,14 @@
 import React from 'react'
 import { ModalButtonWrapper, ModalCancelButton, ModalConfirmButton, ModalContentWrapper, ModalMessage } from './style';
 
-interface LogoutModalProps{
-    isOpen:boolean;
-    onRequestClose:Function;
+interface LogoutModalProps {
+    isOpen: boolean;
+    onRequestClose: Function;
 
 
 }
 
-const LogoutModal = ({isOpen, onRequestClose}:LogoutModalProps) => {
+const LogoutModal = ({ isOpen, onRequestClose }: LogoutModalProps) => {
     console.log('Logout modal ', isOpen)
     return (<>
         <ModalContentWrapper isOpen={isOpen}>
@@ -20,8 +20,6 @@ const LogoutModal = ({isOpen, onRequestClose}:LogoutModalProps) => {
                 >CANCEL</ModalCancelButton>
                 <ModalConfirmButton
                     onClick={() => {
-                        // jwtHandler.setToken('')
-                        // deleteCookie(LOCAL_STORAGE.JWT_TOKEN)
                         onRequestClose();
                     }}
                 >CONFIRM</ModalConfirmButton>
