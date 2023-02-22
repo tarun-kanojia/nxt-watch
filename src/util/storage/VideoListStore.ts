@@ -1,4 +1,4 @@
-import { VideoListResponse } from "../../model/types";
+import { GamingVideoListResponse, VideoListResponse } from "../../model/types";
 import { Video } from "../../model/Video";
 import { VideoList } from "../../model/VideoList";
 
@@ -7,6 +7,6 @@ export const getVideoListFromStore = (key:string) => {
   return list ? JSON.parse(list) : null;
 }
 
-export const updateVideoListToStore = (key:string, value:VideoListResponse) => {
+export const updateVideoListToStore = (key:string, value:VideoListResponse|GamingVideoListResponse) => {
     localStorage.setItem(key, JSON.stringify(value));
 }

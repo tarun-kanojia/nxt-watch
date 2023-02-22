@@ -10,7 +10,7 @@ export const BannerWrapper = styled.div`
     background-repeat: no-repeat;
     padding: 1%;
     width: 98%;
-    height: 10rem;
+    height: 12rem;
 
     
 `;

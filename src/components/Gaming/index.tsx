@@ -8,6 +8,7 @@ import { GamingVideoListResponse, VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
 import { getCookie } from '../../util/storage/StorageUtil';
+import { getVideoListFromStore, updateVideoListToStore } from '../../util/storage/VideoListStore';
 import ErrorComponent from '../ErrorComponent';
 import { Render } from '../Home';
 import { PageWrapper } from '../Home/style';
@@ -31,28 +32,37 @@ const Gaming = ({ }) => {
     const getVideoList = async () => {
         try {
 
-            const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN)
-            const requestOption = {
-                headers: {
-                    Authorization: `Bearer ${jwtToken}`,
-                    "Content-Type": "application/json"
-                },
+            const list: VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.GAMING_VIDEO_LIST);
+            if (list) {
+                const listData = new GamingVideoList(list);
+                setVideoDataList(listData);
 
-                method: 'GET'
+            } else {
+                
+                const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN)
+                console.log('Inside gaming fetch ', jwtToken);
+                const requestOption = {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                        "Content-Type": "application/json"
+                    },
 
+                    method: 'GET'
+
+                }
+                const listResponse = await fetch(GAMING_VIDEO_URL, requestOption);
+                const listData: GamingVideoListResponse = await listResponse.json();
+                updateVideoListToStore(LOCAL_STORAGE.GAMING_VIDEO_LIST, listData);
+                setVideoDataList(new GamingVideoList(listData));
             }
-            const listResponse = await fetch(GAMING_VIDEO_URL, requestOption);
-            const listData: GamingVideoListResponse = await listResponse.json();
-            setVideoDataList(new GamingVideoList(listData));
             window.setTimeout(() => updateErrorStatus(ERROR_STATUS.PRESENT), 1000);
-
         } catch (error) {
             updateErrorStatus(ERROR_STATUS.FAILED)
             console.log(error)
         }
     }
 
-    const renderGamingVideoList = (list ?: GamingVideoList) => {
+    const renderGamingVideoList = (list?: GamingVideoList) => {
         return (
             <>
                 {

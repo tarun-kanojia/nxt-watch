@@ -53,7 +53,7 @@ const DashBoard = () => {
    const currUrl = useLocation();
 
    useEffect(() => {
-      console.log(currUrl.pathname);
+      // console.log(currUrl.pathname);
       let dashBoardContent = new DashBoardContentModel(DASH_BOARD_CONTENT);
       dashBoardContent.list = dashBoardContent.list.map((content) => {
          content.path === currUrl.pathname

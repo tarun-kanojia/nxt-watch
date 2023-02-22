@@ -3,9 +3,16 @@ import styled from "styled-components";
 export const TrendingVideoCardWrapper = styled.section`
     display: grid;
     grid-template-columns: 30% 70%;
-    
     align-items:flex-start;
     border-radius: 5px;
+    
+`;
+
+export const VideoCardsContainer = styled.section`
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
     
 `;
 

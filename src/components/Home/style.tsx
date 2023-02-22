@@ -28,7 +28,7 @@ export const PageWrapper = styled.section`
     height: 100%;
     position: fixed;
     left: 22%;
-    top: 12%;
+    top: 109px;
 
     @media screen and (max-width:670px){
        width: 100%;

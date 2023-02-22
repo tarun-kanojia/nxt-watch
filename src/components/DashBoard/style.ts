@@ -13,7 +13,7 @@ export const DashBoardContainer = styled.section`
     height: 85vh;
     position: fixed;
     /* left: 0px; */
-    top:12%;
+    top:109px;
     /* transform: translate(0%, 20%); */
     
     

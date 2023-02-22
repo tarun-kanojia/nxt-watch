@@ -14,12 +14,13 @@ export const TrendingContainer = styled.section`
     
     overflow-y: scroll;
     padding: 1rem;
+    height: 75vh;
+    
 
 `;
 export const VideoCardsContainer = styled.section`
     display: grid;
     margin: 10px auto auto auto;
     width: 80%;
-
     row-gap: 20px;
 `;

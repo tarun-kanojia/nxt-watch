@@ -21,11 +21,13 @@ import { JWTTokenContext, jwtTokenModel } from './hooks/JWTTokenContext';
 import Router from './components/Router';
 import { Video } from './model/Video';
 import { SavedVideosContext } from './hooks/SavedVideos';
+import { LogoutModalContext } from './hooks/ModalContext';
+import { LOCAL_STORAGE } from './util/storage/constant';
 
 
 
 export let THEME_LIGHT = {
-  NAME:'LIGHT',
+  NAME: 'LIGHT',
   LOGO_URL: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png',
   THEME_TOGGLER: "https://img.icons8.com/glyph-neue/256/bright-moon.png",
   PROFILE_LOGO: "https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png ",
@@ -45,12 +47,12 @@ export let THEME_LIGHT = {
   DASH_BOARD_COLOR: '#ffffff',
   SUBSCRIBER_COUNT_TXT_SIZE: 'smaller',
   DESCRIPTION_FONT_SIZE: 'medium',
-  RETRY_BACKGROUND_BUTTON:' #4f46e5',
-  RETRY_BUTTON_COLOR:'#ffffff'
+  RETRY_BACKGROUND_BUTTON: ' #4f46e5',
+  RETRY_BUTTON_COLOR: '#ffffff'
 }
 
 export let THEME_DARK = {
-  NAME:'DARK',
+  NAME: 'DARK',
   LOGO_URL: 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png',
   THEME_TOGGLER: "https://img.icons8.com/ios11/600/FFFFFF/sun.png",
   BACKGROUND_COLOR: ' #231f20',
@@ -70,67 +72,87 @@ export let THEME_DARK = {
   DASH_BOARD_COLOR: '#231f20',
   SUBSCRIBER_COUNT_TXT_SIZE: 'smaller',
   DESCRIPTION_FONT_SIZE: 'medium',
-  RETRY_BACKGROUND_BUTTON:' #4f46e5',
-  RETRY_BUTTON_COLOR:'#ffffff'
-  
+  RETRY_BACKGROUND_BUTTON: ' #4f46e5',
+  RETRY_BUTTON_COLOR: '#ffffff'
+
 }
 
 
 function App() {
   const [theme, setTheme] = useState('light')
-  // const [jwtToken, setJwtToken] = useState(getCookie(LOCAL_STORAGE.JWT_TOKEN))
+  const [jwtToken, setJwtToken] = useState(getCookie(LOCAL_STORAGE.JWT_TOKEN))
   const [savedVideos, setSavedVideos] = useState<Video[]>([])
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const updateSaveVideoList = (data: Video) => {
     let newSavedVideoList = [...savedVideos];
-    if(!newSavedVideoList.some((video) => video.id === data.id)){
+    if (!newSavedVideoList.some((video) => video.id === data.id)) {
       newSavedVideoList.push(data)
-    }else {
+    } else {
       newSavedVideoList = newSavedVideoList.filter((video) => video.id !== data.id)
     }
     console.log(newSavedVideoList);
     setSavedVideos(newSavedVideoList);
   }
 
+  const closeLogoutModal = () => {
+    console.log('modal close')
+    setIsLogoutModalOpen(false);
+  }
 
+  const openLogoutModal = () => {
+    console.log('modal open')
+    setIsLogoutModalOpen(true);
+  }
+  const toggleModal = () => {
+    setIsLogoutModalOpen(!isLogoutModalOpen);
+  }
 
+  const setToken = (token: string) => {
+    setJwtToken(token);
+  }
 
+  
   return (
 
     <BrowserRouter>
-      {/* <JWTTokenContext.Provider value={{ jwtToken: jwtToken, setToken: setJwtToken }}> */}
-      <SavedVideosContext.Provider value={{savedVideos, updateSaveVideoList}}>
+      <JWTTokenContext.Provider value={{ jwtToken, setToken }}>
+        <LogoutModalContext.Provider value={{ isLogoutModalOpen, openLogoutModal, closeLogoutModal, toggleModal }}>
 
 
-        <ThemeContextHook.Provider value={{ active: theme, toggleTheme: setTheme }}>
-
-          <ThemeProvider theme={theme === 'light' ? THEME_LIGHT : THEME_DARK}>
-
-            <GlobalStyle />
+          <SavedVideosContext.Provider value={{ savedVideos, updateSaveVideoList }}>
 
 
-            <Routes>
+            <ThemeContextHook.Provider value={{ active: theme, toggleTheme: setTheme }}>
 
-              <Route path='/login' element={<Login />} />
-              {ROUTES.map((route) => {
-                const Element = route.element;
+              <ThemeProvider theme={theme === 'light' ? THEME_LIGHT : THEME_DARK}>
 
-                return (
-                  <Route key={route.path} path={route.path} element={
-                    <ProtectedRoute renderElement={() => <NxtWatch children={<Element />} />} />
-                  } />
-                )
-              })}
+                <GlobalStyle />
 
 
-              <Route path='/not-found' element={<NotFound />} />
-              <Route path='*' element={<Navigate to='/not-found' replace />} />
+                <Routes>
 
-            </Routes>
-          </ThemeProvider>
-        </ThemeContextHook.Provider>
-        {/* </JWTTokenContext.Provider> */}
-      </SavedVideosContext.Provider>
+                  <Route path='/login' element={<Login />} />
+                  {ROUTES.map((route) => {
+                    const Element = route.element;
+
+                    return (
+                      <Route key={route.path} path={route.path} element={
+                        <ProtectedRoute renderElement={() => <NxtWatch children={<Element />} />} />
+                      } />
+                    )
+                  })}
+
+
+                  <Route path='/not-found' element={<NotFound />} />
+                  <Route path='*' element={<Navigate to='/not-found' replace />} />
+
+                </Routes>
+              </ThemeProvider>
+            </ThemeContextHook.Provider>
+          </SavedVideosContext.Provider>
+        </LogoutModalContext.Provider>
+      </JWTTokenContext.Provider>
     </BrowserRouter>
   );
 }

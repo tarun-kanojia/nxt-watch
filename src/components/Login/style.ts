@@ -140,4 +140,11 @@ export const ShowPasswordWrapper = styled.div`
 `
 
 export const ErrorMessageContainer = styled.p`
+    color: red;
+    font-weight: bold;
+    font-size: small;
+    text-transform: lowercase;
+
+
+
 `;

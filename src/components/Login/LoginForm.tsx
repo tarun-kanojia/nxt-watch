@@ -1,3 +1,5 @@
+import { rejects } from 'assert';
+import { resolve } from 'path';
 import React, { useContext, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
 import { ThemeContext } from 'styled-components';
@@ -8,6 +10,26 @@ import { LOCAL_STORAGE } from '../../util/storage/constant';
 import { updateCookie } from '../../util/storage/StorageUtil';
 import { Checkbox, CredentialInput, CredentialLabel, ErrorMessageContainer, LoginButton, LoginFormContainer, LoginFormWrapper, Logo, ShowPasswordWrapper, Text } from './style';
 import { validateForm } from './ValidationUtil';
+
+const checkForValidation = (loginMetaData:{username:string, password:string}) => {
+  return new Promise((resolve, rejects)=>{
+    if(loginMetaData.username.length == 0) rejects('Empty username');
+    else if(loginMetaData.password.length == 0) rejects('Empty password');
+    else resolve('valid')
+  })
+}
+
+class AuthenticationError extends Error {
+    constructor(msg:string){
+        super(msg);
+
+    }
+    getError = () => {
+      return ('Invalid username and password')
+    }
+
+    
+}
 
 interface LoginFormProps {
     loginMetaData: LoginMetaData;
@@ -31,11 +53,11 @@ const LoginForm = ({ loginMetaData, loginDispatch }: LoginFormProps) => {
 
     const submitHandel = async (e: any) => {
         e.preventDefault();
-
         // console.log('submit hit')
         try {
             // const validateFormCredential = await validateForm(loginMetaData);
-
+            const validation = await checkForValidation(loginMetaData)
+            console.log('validation')
             const requestOption = {
                 method: 'POST',
                 body: JSON.stringify({
@@ -43,17 +65,20 @@ const LoginForm = ({ loginMetaData, loginDispatch }: LoginFormProps) => {
                     password: loginMetaData.password
                 })/**  username: 'rahul', password: 'rahul@2021'*/
             }
+            console.log('form data', loginMetaData)
             const response = await fetch(LOGIN_URL, requestOption);
             const responseData = await response.json()
-
+            if(responseData.jwt_token === undefined) throw new AuthenticationError('invalid username and password');
             updateCookie(LOCAL_STORAGE.JWT_TOKEN, responseData.jwt_token);
             // console.log(responseData);
+
             navigate('/');
         }
 
         catch (error: any) {
             const errorName = error.errorName;
-            updateError(errorName == undefined ? "Invalid Field Values" : errorName);
+            if(error instanceof AuthenticationError) updateError(error.getError());
+            else updateError(errorName == undefined ? error : errorName);
             renderErrorContainer();
             console.log(error);
         }
@@ -99,7 +124,8 @@ const LoginForm = ({ loginMetaData, loginDispatch }: LoginFormProps) => {
                     }}
 
                 />
-                
+
+                {error.length ? renderErrorContainer() : null}
                 <ShowPasswordWrapper>
                     <Checkbox
                         type='checkbox'
@@ -107,15 +133,14 @@ const LoginForm = ({ loginMetaData, loginDispatch }: LoginFormProps) => {
                     />
                     <Text> Show Password </Text>
                 </ShowPasswordWrapper>
-                
+
                 <LoginButton
                     type='submit'
                     value='Login'
                     onClick={(e) => submitHandel(e)}
                 />
-                
-                {error.length ? renderErrorContainer() : null}
-            
+
+
             </LoginFormContainer>
         </LoginFormWrapper>
     );
