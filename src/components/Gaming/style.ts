@@ -11,6 +11,9 @@ export const GamingContainer = styled.section`
     left: 22%;
     top: 109px;
     overflow-y: scroll;
+    @media screen and (max-width:670px){
+     height: 68vh;
+    }
 
 `;
 

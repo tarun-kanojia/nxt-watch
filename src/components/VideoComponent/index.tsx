@@ -14,6 +14,7 @@ import ActionButtonList from '../ActionButtonsList';
 import { SavedVideosContext, SavedVideosType } from '../../hooks/SavedVideos';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
 import { PageWrapper } from '../Home/style';
+import Loader from '../Loader';
 
 interface VideoComponentProps {
 
@@ -103,7 +104,7 @@ const VideoComponent = ({ }) => {
             const responseData = await response.json();
             // console.log(responseData)
             const responseVideoData: VideoResponse = responseData.video_details;
-            updateVideoData(new Video(responseVideoData));
+            window.setTimeout(() => updateVideoData(new Video(responseVideoData)), 100);
             // setVideoData(new Video(responseVideoData));
 
 
@@ -131,7 +132,7 @@ const VideoComponent = ({ }) => {
 
     return (
         videoData == null ?
-            <>Loading</>
+            <Loader />
 
             :
             <PageWrapper>

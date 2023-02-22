@@ -30,8 +30,7 @@ let theme = 'light';
 
 export const GlobalStyle = createGlobalStyle<GlobalProps>`
     ${(GlobalProps) => theme = GlobalProps.theme}
-    a{ text-decoration: none; }
-
+    
 
     
 `;

@@ -18,6 +18,7 @@ export const VideoCardsContainer = styled.section`
 
 export const CardImg = styled.img`
     width: 100%;
+    aspect-ratio: 2/1;
 `;
 
 export const VideoCardDetailsWrapper = styled.div`
