@@ -6,7 +6,9 @@ export const SearchContainer = styled.div`
     grid-template-columns: 1fr 2rem;
     column-gap: 2px;
     border: 1px solid ${(props) => props.theme.SEARCH_BAR_BORDER_COLOR};
-    
+    align-self: center;
+    width: 60%;
+    min-width: 320px;
     background-color: ${(props) => props.theme.SEARCH_BAR_BACKGROUND};
     border-radius: 5px;
     margin: 1rem 0rem 1rem 1rem;

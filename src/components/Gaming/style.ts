@@ -11,16 +11,20 @@ export const GamingContainer = styled.section`
     left: 22%;
     top: 109px;
     overflow-y: scroll;
+    @media screen and (max-width:670px){
+     height: 68vh;
+    }
 
 `;
 
 export const GamingVideosContainer = styled.div`
+    overflow: scroll;
+    width: 98%;
     margin: auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    width: 90%;
 `;
 
 export const GamingVideoCardWrapper = styled.div`

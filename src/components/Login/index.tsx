@@ -29,8 +29,8 @@ const Login = () => {
     const [loginMetaData, loginDispatch] = useReducer(loginReducer, new LoginMetaData())
     const navigate = useNavigate();
     const JWT_TOKEN = getCookie(LOCAL_STORAGE.JWT_TOKEN);
-    console.log('jwt token',JWT_TOKEN)
-    if (JWT_TOKEN !== '') {
+    // console.log('jwt token',JWT_TOKEN)
+    if (JWT_TOKEN && JWT_TOKEN !== '') {
         return <Navigate to='/' />
     }
     else {

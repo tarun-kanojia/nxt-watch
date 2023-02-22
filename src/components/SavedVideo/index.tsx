@@ -1,9 +1,12 @@
 import React, { useContext, useState } from 'react'
+import { FaFire } from 'react-icons/fa';
 import { ERROR_STATUS } from '../../constants/errorStatus';
 import { SavedVideosContext } from '../../hooks/SavedVideos';
 import { VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
 import { Render } from '../Home';
+import { PageWrapper } from '../Home/style';
+import PageHeader from '../PageHeader';
 import SavedVideoErrorComponent from '../SavedVideoErrorComponent';
 import VideoCardListHorizontal from '../VideoCardListHorizontal';
 import { SavedVideoContainer } from './style';
@@ -30,19 +33,20 @@ const SavedVideo = ({ }) => {
             // updateErrorStatus(ERROR_STATUS.PRESENT);
             console.log('saved-videos', videoList.savedVideos)
             return (
-                <SavedVideoContainer>
+                <>
+                    <PageHeader Icon={FaFire} title='Saved Videos' />
                     <VideoCardListHorizontal videoDataList={totalVideos} />
 
-                </SavedVideoContainer>
+                </>
             );
         } else {
             // updateErrorStatus(ERROR_STATUS.FAILED);
-            return (<SavedVideoContainer>
+            return (<>
                 <SavedVideoErrorComponent />
-            </SavedVideoContainer>)
+            </>)
         }
     }
-    return <>{SavedVideoPage()}</>
+    return <PageWrapper>{SavedVideoPage()}</PageWrapper>
 }
 
 export default SavedVideo;

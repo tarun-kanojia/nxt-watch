@@ -8,7 +8,7 @@ import { getCookie } from '../../util/storage/StorageUtil';
 import PrimeBanner from '../PrimeBanner';
 import SearchBar from '../SearchBar';
 import VideoCardList from '../VideoCardList';
-import { HomeContainer } from './style';
+import { HomeContainer, PageWrapper } from './style';
 import { getVideoListFromStore, updateVideoListToStore } from '../../util/storage/VideoListStore';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
 import HomeError from '../Loader';
@@ -22,7 +22,7 @@ export const Render = (
 
     SuccessComponent: React.ReactNode,
     retryFunction: Function) => {
-        console.log('ErrorStatus',errorStatus)
+        
     switch (errorStatus) {
         case ERROR_STATUS.PRESENT:
             return (<>
@@ -107,16 +107,15 @@ const Home = () => {
     const HomePage = () => {
         return (
             <>
-                <HomeContainer>
                     {showPrimeBanner ? <PrimeBanner hidePrimeBanner={hidePrimeBanner} /> : null}
                     <SearchBar querry={querry} updateQuerry={updateQuerry} />
                     <VideoCardList videoList={filterList(querry, videoDataList)} />
-                </HomeContainer>
+               
             </>
         )
     }
 
-    return <>{Render(errorStatus, HomePage(), getVideoList)}</>
+    return <PageWrapper>{Render(errorStatus, HomePage(), getVideoList)}</PageWrapper>
 
     
 

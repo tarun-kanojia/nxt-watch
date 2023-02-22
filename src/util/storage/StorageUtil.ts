@@ -9,7 +9,8 @@ export const updateCookie = (key: string, value: any) => {
 
 export const getCookie = (key: string) => {
   const cookie =  Cookies.get(key);
-  return cookie == undefined ? '' : cookie;
+  // console.log(cookie)
+  return (cookie === undefined ? '' : cookie);
 }
 
 export const deleteCookie = (key: string) => {

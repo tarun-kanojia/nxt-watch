@@ -1,5 +1,65 @@
 import styled from "styled-components";
 import React, { useContext } from 'react'
+import Modal from 'react-modal';
+import ReactModal from "react-modal";
+
+export const ModalStyle = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        width: '20rem',
+        height: '10rem',
+        // marginRight: '-50%',
+
+        transform: 'translate(-50%, -50%)',
+
+    }
+}
+
+
+export const ModalContentWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    /* background-color: ${(props) => props.theme.DASH_BOARD_COLOR}; */
+    height: 100%;
+    width: 100%;
+    border-radius: 5px;
+`;
+
+export const ModalMessage = styled.h4`
+`;
+
+export const ModalButtonWrapper = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1rem;
+`;
+export const ModalButton = styled.button`
+    border: none;
+    height: 2rem;
+    border-radius: 2px;
+    border: 1px solid ${(props) => props.theme.LOGIN_BTN_BG_COLOR};
+    background-color: transparent;
+    color: ${(props) => props.theme.LOGIN_BTN_BG_COLOR};
+    font-weight: bold;
+
+    &:hover{
+        color: ${(props) => props.theme.LOGIN_BTN_TXT_COLOR};
+        background-color: ${(props) => props.theme.LOGIN_BTN_BG_COLOR};
+
+    }
+`;
+
+export const ModalCancelButton = styled.button`
+    border: none;
+    height: 2rem;
+
+`;
 
 export const HeaderContainer = styled.section`
     display: flex;

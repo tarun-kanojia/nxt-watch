@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import styled, { createGlobalStyle, ThemeContext } from 'styled-components'
 import LoginForm from './LoginForm'
 
@@ -29,10 +30,13 @@ let theme = 'light';
 
 export const GlobalStyle = createGlobalStyle<GlobalProps>`
     ${(GlobalProps) => theme = GlobalProps.theme}
-    a{ text-decoration: none; }
-
+    
 
     
+`;
+
+export const StyledLink = styled(Link)`
+    text-decoration: none;
 `;
 
 interface CenterContainerProps {
@@ -135,4 +139,11 @@ export const ShowPasswordWrapper = styled.div`
 `
 
 export const ErrorMessageContainer = styled.p`
+    color: red;
+    font-weight: bold;
+    font-size: small;
+    text-transform: lowercase;
+
+
+
 `;

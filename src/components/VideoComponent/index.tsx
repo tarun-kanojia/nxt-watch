@@ -13,6 +13,8 @@ import { ICONS } from '../ActionIconButton/constant';
 import ActionButtonList from '../ActionButtonsList';
 import { SavedVideosContext, SavedVideosType } from '../../hooks/SavedVideos';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
+import { PageWrapper } from '../Home/style';
+import Loader from '../Loader';
 
 interface VideoComponentProps {
 
@@ -27,10 +29,10 @@ const opts = {
     },
 };
 
-const savedVideoStatus = (videoList:SavedVideosType|null, id:string|undefined) => {
-    const isSaved =  videoList ?
-    videoList.savedVideos.some((video) => video.id == id)
-    :false;
+const savedVideoStatus = (videoList: SavedVideosType | null, id: string | undefined) => {
+    const isSaved = videoList ?
+        videoList.savedVideos.some((video) => video.id == id)
+        : false;
     console.log(isSaved)
     return isSaved;
 }
@@ -41,11 +43,11 @@ const VideoComponent = ({ }) => {
     const [videoData, setVideoData] = useState<Video | null>(null)
     const [actionIconButtonList, setActionIconButtonList] = useState(new ActionIconButtonList(ICONS))
     const [videoSavedStatus, setVideoSavedStatus] = useState(savedVideoStatus(videoList, videoId));
-    
-    
+
+
     const updateVideoSavedStatus = () => {
         setVideoSavedStatus(!videoSavedStatus);
-        
+
     }
 
     const updateActionButtonList = (list: ActionIconButtonList) => {
@@ -63,12 +65,12 @@ const VideoComponent = ({ }) => {
     }
 
     const updateTheStatus = (newVideoData: Video) => {
-        if(videoList){
+        if (videoList) {
             videoList.updateSaveVideoList({ ...newVideoData });
             updateVideoData(newVideoData);
-            console.log('inside updateTheStatus: ',videoList)
+            console.log('inside updateTheStatus: ', videoList)
             updateVideoSavedStatus();
-            
+
         }
 
     }
@@ -102,7 +104,7 @@ const VideoComponent = ({ }) => {
             const responseData = await response.json();
             // console.log(responseData)
             const responseVideoData: VideoResponse = responseData.video_details;
-            updateVideoData(new Video(responseVideoData));
+            window.setTimeout(() => updateVideoData(new Video(responseVideoData)), 100);
             // setVideoData(new Video(responseVideoData));
 
 
@@ -115,7 +117,7 @@ const VideoComponent = ({ }) => {
 
     useEffect(() => {
         getVideoData();
-        
+
 
     }, [])
 
@@ -130,49 +132,54 @@ const VideoComponent = ({ }) => {
 
     return (
         videoData == null ?
-        <>Loading</>
+            <Loader />
 
-        : <VideoContainer>
+            :
+            <PageWrapper>
 
-            <YoutubeEmbed videoId={getVideoId(videoData.videoUrl)} opts={opts} />
-            <Title>{videoData.title}</Title>
-            <VideoActonWrapper>
-                <VideoAnalyticsWrapper>
-                    <ViewCount>{`${videoData.viewCount} views`}</ViewCount>
-                    <DoteIcon />
-                    <Duration>{`${getDuration(videoData.publishedAt)} ago`}</Duration>
-                </VideoAnalyticsWrapper>
-                <ActionButtonWrapper>
-                    <ActionButtonList
-                        actionIconButtonList={actionIconButtonList}
-                        updateActionButtonList={updateActionButtonList}
-                    />
-                    <CenterContainer onClick={() => {
+                <VideoContainer>
 
-                        toggleSavedStatus()
-                        // updateVideoSavedStatus();
-                    }}>
+                    <YoutubeEmbed videoId={getVideoId(videoData.videoUrl)} opts={opts} />
+                    <Title>{videoData.title}</Title>
+                    <VideoActonWrapper>
+                        <VideoAnalyticsWrapper>
+                            <ViewCount>{`${videoData.viewCount} views`}</ViewCount>
+                            <DoteIcon />
+                            <Duration>{`${getDuration(videoData.publishedAt)} ago`}</Duration>
+                        </VideoAnalyticsWrapper>
+                        <ActionButtonWrapper>
+                            <ActionButtonList
+                                actionIconButtonList={actionIconButtonList}
+                                updateActionButtonList={updateActionButtonList}
+                            />
+                            <CenterContainer onClick={() => {
 
-                        <BiSave size='2rem'
-                            color={videoSavedStatus ? '#3b82f6' : 'grey'}
-                        />
-                        <span>Save</span>
-                    </CenterContainer>
-                </ActionButtonWrapper>
-            </VideoActonWrapper>
+                                toggleSavedStatus()
+                                // updateVideoSavedStatus();
+                            }}>
 
-            <Divider />
+                                <BiSave size='2rem'
+                                    color={videoSavedStatus ? '#3b82f6' : 'grey'}
+                                />
+                                <span>Save</span>
+                            </CenterContainer>
+                        </ActionButtonWrapper>
+                    </VideoActonWrapper>
 
-            <ChannelWrapper>
-                <ChannelProfile src={videoData.channel.profileImageUrl} />
-                <ChannelDetails>
-                    <ChannelName>{videoData.channel.name}</ChannelName>
-                    <ChannelSubscribersCount>{`${videoData.channel.subscriberCount} subscribers`}</ChannelSubscribersCount>
-                    <ChannelDescription>{videoData.description}</ChannelDescription>
-                </ChannelDetails>
-            </ChannelWrapper>
+                    <Divider />
 
-        </VideoContainer>
+                    <ChannelWrapper>
+                        <ChannelProfile src={videoData.channel.profileImageUrl} />
+                        <ChannelDetails>
+                            <ChannelName>{videoData.channel.name}</ChannelName>
+                            <ChannelSubscribersCount>{`${videoData.channel.subscriberCount} subscribers`}</ChannelSubscribersCount>
+                            <ChannelDescription>{videoData.description}</ChannelDescription>
+                        </ChannelDetails>
+                    </ChannelWrapper>
+
+                </VideoContainer>
+            </PageWrapper>
+
     );
 }
 

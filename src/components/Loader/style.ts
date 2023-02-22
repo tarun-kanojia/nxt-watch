@@ -10,4 +10,12 @@ export const ErrorContainer = styled.section`
     position: fixed;
     left: 22%;
     top: 109px;
+    
+    @media screen and (max-width:670px){
+       width: 100%;
+       left: 0%;
+       top: 0%;
+       
+
+    }
 `;
