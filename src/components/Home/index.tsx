@@ -14,30 +14,29 @@ import { LOCAL_STORAGE } from '../../util/storage/constant';
 import HomeError from '../Loader';
 import { ErrorContainer } from '../Loader/style';
 import Loader from '../Loader';
-import { ERROR_STATUS } from '../../constants/errorStatus';
+import { APIStatus } from '../../constants/errorStatus';
 import ErrorComponent from '../ErrorComponent';
 
 export const Render = (
-    errorStatus: string,
+    errorStatus: APIStatus,
 
     SuccessComponent: React.ReactNode,
     retryFunction: Function) => {
         
     switch (errorStatus) {
-        case ERROR_STATUS.PRESENT:
+        case APIStatus.PRESENT:
             return (<>
                 {SuccessComponent}
             </>)
 
-        case ERROR_STATUS.IN_PROGRESS:
+        case APIStatus.IN_PROGRESS:
             return <Loader />
 
-        case ERROR_STATUS.FAILED:
+        case APIStatus.FAILED:
             return <HomeContainer>
                 <ErrorComponent getVideoList={retryFunction} />
             </HomeContainer>
 
-        default: return <>Default</>
     }
 }
 
@@ -45,7 +44,7 @@ const Home = () => {
     const [querry, setQuerry] = useState('')
     const [videoDataList, setVideoDataList] = useState<VideoList>({});
     const [showPrimeBanner, setShowPrimeBanner] = useState(true);
-    const [errorStatus, setErrorStatus] = useState(ERROR_STATUS.IN_PROGRESS)
+    const [errorStatus, setErrorStatus] = useState(APIStatus.IN_PROGRESS)
     const hidePrimeBanner = () => {
         setShowPrimeBanner(false);
     }
@@ -60,13 +59,13 @@ const Home = () => {
         // setVideoDataList(list)
     }
 
-    const updateErrorStatus = (status: string) => {
+    const updateErrorStatus = (status: APIStatus) => {
         setErrorStatus(status);
     }
 
     const getVideoList = async () => {
         try {
-            const list: VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
+            const list: null|VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
             if (list) {
                 const listData = new VideoList(list);
                 setVideoDataList(listData);
@@ -90,11 +89,11 @@ const Home = () => {
                 setVideoDataList(listData);
             }
 
-            window.setTimeout(() => updateErrorStatus(ERROR_STATUS.PRESENT), 1000);
+            window.setTimeout(() => updateErrorStatus(APIStatus.PRESENT), 1000);
 
         } catch (error) {
             console.log(error)
-            updateErrorStatus(ERROR_STATUS.FAILED);
+            updateErrorStatus(APIStatus.FAILED);
         }
     }
 

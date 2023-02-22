@@ -15,9 +15,30 @@ import { SavedVideosContext, SavedVideosType } from '../../hooks/SavedVideos';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
 import { PageWrapper } from '../Home/style';
 import Loader from '../Loader';
+import { LikedStatus, LikedStatusType } from '../../constants/errorStatus';
+import { addVideoDataToStore, getVideoDataFromStore, videoComponentListStore } from '../../store/videoComponentStore';
 
 interface VideoComponentProps {
 
+}
+
+export const getVideoResponseTypeData = (data:Video) => {
+  return ({
+    channel:{
+        name: data.channel.name,
+        profile_image_url: data.channel.profileImageUrl,
+        subscriber_count: data.channel.subscriberCount
+
+    },
+    id: data.id,
+    published_at: data.publishedAt,
+    thumbnail_url: data.thumbnailUrl,
+    title: data.title,
+    view_count: data.viewCount,
+    video_url: data.videoUrl,
+    is_liked:data.isLiked,
+    description: data.description
+  })
 }
 
 const opts = {
@@ -33,7 +54,6 @@ const savedVideoStatus = (videoList: SavedVideosType | null, id: string | undefi
     const isSaved = videoList ?
         videoList.savedVideos.some((video) => video.id == id)
         : false;
-    console.log(isSaved)
     return isSaved;
 }
 
@@ -43,7 +63,12 @@ const VideoComponent = ({ }) => {
     const [videoData, setVideoData] = useState<Video | null>(null)
     const [actionIconButtonList, setActionIconButtonList] = useState(new ActionIconButtonList(ICONS))
     const [videoSavedStatus, setVideoSavedStatus] = useState(savedVideoStatus(videoList, videoId));
+    const [videoLikeStatus, setVideoLikeStatus] = useState<LikedStatusType>(LikedStatus.INITIAL)
 
+    const updateVideoLikeStatus = (status: LikedStatusType, video: Video) => {
+
+
+    }
 
     const updateVideoSavedStatus = () => {
         setVideoSavedStatus(!videoSavedStatus);
@@ -61,7 +86,10 @@ const VideoComponent = ({ }) => {
     }
 
     const updateVideoData = (data: Video) => {
+        // const newData = getVideoResponseTypeData({...data});
+        // console.log(newData)
         setVideoData(data);
+        // console.log(newData.isLiked)
     }
 
     const updateTheStatus = (newVideoData: Video) => {
@@ -100,19 +128,36 @@ const VideoComponent = ({ }) => {
         }
 
         try {
-            const response = await fetch(VIDEOS_BASE_URL + `/${videoId}`, requestOption);
-            const responseData = await response.json();
-            // console.log(responseData)
-            const responseVideoData: VideoResponse = responseData.video_details;
-            window.setTimeout(() => updateVideoData(new Video(responseVideoData)), 100);
-            // setVideoData(new Video(responseVideoData));
+            if (!videoId) throw new Error();
+            let videoResponseData: Video | null = null;
+            const storeData = getVideoDataFromStore(videoId);
+            if (storeData === null) {
+
+                const response = await fetch(VIDEOS_BASE_URL + `/${videoId}`, requestOption);
+                const responseData: { video_details: VideoResponse } = await response.json();
+                // console.log(responseData)
+                const videoResponse: VideoResponse = responseData.video_details;
+                videoResponseData = new Video(videoResponse);
+                // setVideoData(new Video(responseVideoData));
+                
+                addVideoDataToStore(videoResponseData);
+
+            } else {
+                videoResponseData = getVideoDataFromStore(videoId)
+
+            }
+            window.setTimeout(() => {
+                if (videoResponseData !== null) updateVideoData(videoResponseData)
+            }, 100);
+
+
 
 
         } catch (error) {
-
+            console.log(error);
         }
     }
-    // console.log(videoData);
+    console.log(videoData?.isLiked);
 
 
     useEffect(() => {
@@ -128,7 +173,7 @@ const VideoComponent = ({ }) => {
         }
 
     }
-    console.log(videoSavedStatus)
+    // console.log(videoSavedStatus)
 
     return (
         videoData == null ?
@@ -151,6 +196,9 @@ const VideoComponent = ({ }) => {
                             <ActionButtonList
                                 actionIconButtonList={actionIconButtonList}
                                 updateActionButtonList={updateActionButtonList}
+                                updateVideoLikeStatus={updateVideoLikeStatus}
+                                video={videoData}
+                                updateVideoData={updateVideoData}
                             />
                             <CenterContainer onClick={() => {
 

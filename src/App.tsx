@@ -94,7 +94,8 @@ function App() {
     console.log(newSavedVideoList);
     setSavedVideos(newSavedVideoList);
   }
-
+  
+  
   const closeLogoutModal = () => {
     console.log('modal close')
     setIsLogoutModalOpen(false);

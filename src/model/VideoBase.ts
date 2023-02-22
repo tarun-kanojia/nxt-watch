@@ -1,4 +1,4 @@
-import { VideoBaseResponse } from "./types";
+import { VideoBaseResponse, VideoStateRefType } from "./types";
 
 
 export class VideoBase{

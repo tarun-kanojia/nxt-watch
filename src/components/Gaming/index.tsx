@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { FaGamepad } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { GAMING_VIDEO_URL } from '../../constants/endPoints';
-import { ERROR_STATUS } from '../../constants/errorStatus';
+import { APIStatus } from '../../constants/errorStatus';
 import { GamingVideoList } from '../../model/GamingVideoList';
-import { GamingVideoListResponse, VideoListResponse } from '../../model/types';
+import { GamingVideoListResponse, VideoBaseResponse, VideoListResponse } from '../../model/types';
+import { VideoBase } from '../../model/VideoBase';
 import { VideoList } from '../../model/VideoList';
+import { gamingVideoListStore } from '../../store/gamingVideoListStore';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
 import { getCookie } from '../../util/storage/StorageUtil';
 import { getVideoListFromStore, updateVideoListToStore } from '../../util/storage/VideoListStore';
@@ -22,20 +24,22 @@ interface GamingProps {
 }
 
 const Gaming = ({ }) => {
-    const [errorStatus, setErrorStatus] = useState(ERROR_STATUS.IN_PROGRESS)
+    const [errorStatus, setErrorStatus] = useState(APIStatus.IN_PROGRESS)
     const [videoDataList, setVideoDataList] = useState<GamingVideoList>()
-
-    const updateErrorStatus = (status: string) => {
+    const [gamingVideoList, setGamingVideoList] = useState<VideoBase[]|null>(null)
+    const updateErrorStatus = (status: APIStatus) => {
         setErrorStatus(status);
     }
 
     const getVideoList = async () => {
         try {
-
-            const list: VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.GAMING_VIDEO_LIST);
-            if (list) {
+            const gamingVideosObj = gamingVideoListStore;
+            const list: null|VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.GAMING_VIDEO_LIST);
+            if (list && gamingVideosObj.list) {
                 const listData = new GamingVideoList(list);
+                const data = gamingVideoListStore.list;
                 setVideoDataList(listData);
+                // setGamingVideoList(data)
 
             } else {
                 
@@ -52,12 +56,15 @@ const Gaming = ({ }) => {
                 }
                 const listResponse = await fetch(GAMING_VIDEO_URL, requestOption);
                 const listData: GamingVideoListResponse = await listResponse.json();
+                
                 updateVideoListToStore(LOCAL_STORAGE.GAMING_VIDEO_LIST, listData);
+                
                 setVideoDataList(new GamingVideoList(listData));
+                // setGamingVideoList(new VideoBase(listData.videos));
             }
-            window.setTimeout(() => updateErrorStatus(ERROR_STATUS.PRESENT), 1000);
+            window.setTimeout(() => updateErrorStatus(APIStatus.PRESENT), 1000);
         } catch (error) {
-            updateErrorStatus(ERROR_STATUS.FAILED)
+            updateErrorStatus(APIStatus.FAILED)
             console.log(error)
         }
     }
@@ -103,7 +110,7 @@ const Gaming = ({ }) => {
             );
 
         }
-        updateErrorStatus(ERROR_STATUS.FAILED);
+        updateErrorStatus(APIStatus.FAILED);
         return <></>
 
     }

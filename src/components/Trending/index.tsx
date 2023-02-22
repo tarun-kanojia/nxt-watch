@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaFire } from 'react-icons/fa'
 import { TRENDING_VIDEO_URL } from '../../constants/endPoints'
-import { ERROR_STATUS } from '../../constants/errorStatus'
+import { APIStatus } from '../../constants/errorStatus'
 import { VideoListResponse } from '../../model/types'
 import { VideoList } from '../../model/VideoList'
 import { LOCAL_STORAGE } from '../../util/storage/constant'
@@ -18,16 +18,16 @@ import { TrendingContainer, TrendingPageWrapper } from './style'
 
 const Trending = () => {
    // console.log('Inside trending')
-   const [errorStatus, setErrorStatus] = useState(ERROR_STATUS.IN_PROGRESS)
+   const [errorStatus, setErrorStatus] = useState(APIStatus.IN_PROGRESS)
    const [videoDataList, setVideoDataList] = useState({})
 
-   const updateErrorStatus = (status: string) => {
+   const updateErrorStatus = (status: APIStatus) => {
       setErrorStatus(status);
    }
 
    const getVideoList = async () => {
       try {
-         const list: VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.TRENDING_VIDEO_LIST);
+         const list: null|VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.TRENDING_VIDEO_LIST);
          if (list) {
             const listData = new VideoList(list);
             setVideoDataList(listData)
@@ -50,9 +50,9 @@ const Trending = () => {
             setVideoDataList(new VideoList(listData))
 
          }
-         window.setTimeout(() => setErrorStatus(ERROR_STATUS.PRESENT), 1000);
+         window.setTimeout(() => setErrorStatus(APIStatus.PRESENT), 1000);
       } catch (error) {
-         setErrorStatus(ERROR_STATUS.FAILED)
+         setErrorStatus(APIStatus.FAILED)
          console.log(error)
       }
    }

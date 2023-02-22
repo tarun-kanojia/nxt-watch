@@ -4,7 +4,8 @@ import { VideoList } from "../../model/VideoList";
 
 export const getVideoListFromStore = (key:string) => {
   const list = localStorage.getItem(key)
-  return list ? JSON.parse(list) : null;
+  return null
+  // return list ? JSON.parse(list) : null;
 }
 
 export const updateVideoListToStore = (key:string, value:VideoListResponse|GamingVideoListResponse) => {

@@ -1,5 +1,6 @@
 import { IconType } from "react-icons";
 import { StringMappingType } from "typescript";
+import { Channel } from "./Channel";
 
 export interface ErrorModel {
     valid: boolean;
@@ -33,6 +34,7 @@ export interface VideoBaseResponse{
     view_count: string;
     video_url?: string;
     description?: string;
+    is_liked ?:boolean|null;
 }
 
 export interface GamingVideoListResponse{
@@ -43,6 +45,20 @@ export interface GamingVideoListResponse{
 export interface VideoResponse  extends VideoBaseResponse{
     channel: ChannelResponse;
     
+}
+
+
+
+export interface VideoStateRefType{
+    channel:Channel;
+    id: string;
+    publishedAt: string;
+    thumbnailUrl: string;
+    title: string;
+    viewCount: string;
+    videoUrl?: string;
+    description?: string;
+
 }
 
 
