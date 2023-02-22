@@ -1,6 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
-import { SavedVideosType } from '../../hooks/SavedVideos';
 import { VideoList } from '../../model/VideoList';
 import { getDuration } from '../../util/DateFunction';
 import { StyledLink } from '../Login/style';

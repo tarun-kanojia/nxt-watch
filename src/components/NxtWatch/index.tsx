@@ -17,7 +17,6 @@ interface NxtWatchProps {
 
 const NxtWatch = ({ children }: NxtWatchProps) => {
 
-    // console.log(window.location)
     return (
         <NxtWatchContainer>
             <Fixed>

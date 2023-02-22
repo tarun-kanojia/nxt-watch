@@ -1,9 +1,8 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ALL_VIDEOS_URL } from '../../constants/endPoints';
 import { VideoListResponse } from '../../model/types';
 import { VideoList } from '../../model/VideoList';
 import { filterList } from '../../util/ComponentMethods';
-import Header from '../Header';
 import { getCookie } from '../../util/storage/StorageUtil';
 import PrimeBanner from '../PrimeBanner';
 import SearchBar from '../SearchBar';
@@ -11,8 +10,6 @@ import VideoCardList from '../VideoCardList';
 import { HomeContainer, PageWrapper } from './style';
 import { getVideoListFromStore, updateVideoListToStore } from '../../util/storage/VideoListStore';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
-import HomeError from '../Loader';
-import { ErrorContainer } from '../Loader/style';
 import Loader from '../Loader';
 import { APIStatus } from '../../constants/errorStatus';
 import ErrorComponent from '../ErrorComponent';

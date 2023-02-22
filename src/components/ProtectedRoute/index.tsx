@@ -5,6 +5,7 @@ import { getCookie } from '../../util/storage/StorageUtil';
 import path from 'path';
 import { JWTTokenContext } from '../../hooks/JWTTokenContext';
 import Loader from '../Loader';
+import Navigator from '../Navigator';
 
 interface ProtectedRouteProps {
     renderElement: () => JSX.Element
@@ -16,28 +17,10 @@ const JWT_TOKEN_UPDATE = {
     MISSING: 'MISSING'
 }
 
-const Navigator = ({ to ,isToken}: { to: string,isToken:string }) => {
-    // let navigate = useNavigate();
-    // useEffect(() => {
-    //     console.log('useeffct Missing JWT TOKEN')
-
-    //     redirect('/login')
-
-    // },[isToken])
-    return <Navigate to ='/login' replace />
-}
-
 const ProtectedRoute = ({ renderElement }: ProtectedRouteProps) => {
     const JWT_TOKEN = getCookie('JWT_TOKEN');
     const token = useContext(JWTTokenContext)
-    // console.log(JWT_TOKEN,'erfd');
-    // useEffect(() => {
-    //     if(!JWT_TOKEN)
-    //     console.log('useeffct Missing JWT TOKEN')
-
-    //     redirect('/login')
-
-    // },[])
+    
 
 
     console.log('JWT_TOKEN', JWT_TOKEN)

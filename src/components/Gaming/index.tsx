@@ -19,11 +19,7 @@ import { StyledLink } from '../Login/style';
 import PageHeader from '../PageHeader';
 import { GamingContainer, GamingVideoCardWrapper, GamingVideosContainer, GamingVideoThumbnail, LiveWatching, VideoDescription, VideoTitle } from './style';
 
-interface GamingProps {
-
-}
-
-const Gaming = ({ }) => {
+const Gaming = () => {
     const [errorStatus, setErrorStatus] = useState(APIStatus.IN_PROGRESS)
     const [videoDataList, setVideoDataList] = useState<GamingVideoList>()
     const [gamingVideoList, setGamingVideoList] = useState<VideoBase[]|null>(null)
@@ -92,8 +88,8 @@ const Gaming = ({ }) => {
     }
 
     useEffect(() => {
-
         getVideoList();
+
     }, [])
 
     const GamingPage = () => {

@@ -7,14 +7,10 @@ import { VideoList } from '../../model/VideoList'
 import { LOCAL_STORAGE } from '../../util/storage/constant'
 import { getCookie } from '../../util/storage/StorageUtil'
 import { getVideoListFromStore, updateVideoListToStore } from '../../util/storage/VideoListStore'
-import ErrorComponent from '../ErrorComponent'
 import { Render } from '../Home'
 import { PageWrapper } from '../Home/style'
-import Loader from '../Loader'
 import PageHeader from '../PageHeader'
-import VideoCardList from '../VideoCardList'
 import VideoCardListHorizontal from '../VideoCardListHorizontal'
-import { TrendingContainer, TrendingPageWrapper } from './style'
 
 const Trending = () => {
    // console.log('Inside trending')
