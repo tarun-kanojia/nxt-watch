@@ -1,7 +1,17 @@
 import { IconType } from "react-icons";
 import { StringMappingType } from "typescript";
+import { GamingVideoStore } from "../store/GamingVideoStore";
+import { HomeVideoStore } from "../store/HomeVideoStore";
+import { SavedVideoStore } from "../store/SavedVideoStore";
+import { TrendingVideoStore } from "../store/TrendingVideoStore";
 import { Channel } from "./Channel";
 
+export type RefStoreType = SavedVideoStore|GamingVideoStore|TrendingVideoStore;
+export interface StoreReferencesType{
+    homeVideoRef:HomeVideoStore;
+    gamingVideoRef:GamingVideoStore;
+    trendingVideoRef:TrendingVideoStore;
+}
 export interface ErrorModel {
     valid: boolean;
     value?: string;

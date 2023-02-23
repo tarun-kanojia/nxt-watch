@@ -1,6 +1,6 @@
 import { apiOwnKeys } from "mobx/dist/internal";
 import { ALL_VIDEOS_URL, GAMING_VIDEO_URL, TRENDING_VIDEO_URL } from "../constants/endPoints";
-import { VideoListResponse } from "../model/types";
+import { RefStoreType, VideoListResponse } from "../model/types";
 
 interface TransportLayerType {
     endPoint: string;
