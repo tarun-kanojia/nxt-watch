@@ -16,10 +16,9 @@ import ErrorComponent from '../ErrorComponent';
 
 export const Render = (
     errorStatus: APIStatus,
-
     SuccessComponent: React.ReactNode,
     retryFunction: Function) => {
-        
+
     switch (errorStatus) {
         case APIStatus.PRESENT:
             return (<>
@@ -62,7 +61,7 @@ const Home = () => {
 
     const getVideoList = async () => {
         try {
-            const list: null|VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
+            const list: null | VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
             if (list) {
                 const listData = new VideoList(list);
                 setVideoDataList(listData);
@@ -103,17 +102,17 @@ const Home = () => {
     const HomePage = () => {
         return (
             <>
-                    {showPrimeBanner ? <PrimeBanner hidePrimeBanner={hidePrimeBanner} /> : null}
-                    <SearchBar querry={querry} updateQuerry={updateQuerry} />
-                    <VideoCardList videoList={filterList(querry, videoDataList)} />
-               
+                {showPrimeBanner ? <PrimeBanner hidePrimeBanner={hidePrimeBanner} /> : null}
+                <SearchBar querry={querry} updateQuerry={updateQuerry} />
+                <VideoCardList videoList={filterList(querry, videoDataList)} />
+
             </>
         )
     }
 
     return <PageWrapper>{Render(errorStatus, HomePage(), getVideoList)}</PageWrapper>
 
-    
+
 
 
 }
