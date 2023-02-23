@@ -1,6 +1,4 @@
-import { action, apiOwnKeys, observable } from "mobx/dist/internal";
-import { ALL_VIDEOS_URL, GAMING_VIDEO_URL, TRENDING_VIDEO_URL } from "../constants/endPoints";
-import { VideoListResponse } from "../model/types";
+import { action, observable } from "mobx/dist/internal";
 import { Video } from "../model/Video";
 
 

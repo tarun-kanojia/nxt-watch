@@ -1,9 +1,10 @@
+import { action, observable } from "mobx";
 import { DashBoard, DashBoardList } from "./types"
 class DashBoardItem{
     id:number;
     icon:any;
     title:string;
-    active:boolean;
+    @observable active:boolean;
     path:string;
 
     constructor(content:DashBoard){
@@ -21,7 +22,7 @@ export class DashBoardContentModel {
         this.list = content.list.map((ele) => new DashBoardItem(ele))
     }
 
-    toggleActiveStatus = (id:number) => {
+    @action toggleActiveStatus = (id:number) => {
       this.list = this.list.map((ele) => {
         ele.active = (ele.id == id);
         return ele;
