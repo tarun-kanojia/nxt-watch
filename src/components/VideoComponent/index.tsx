@@ -19,13 +19,13 @@ import { LikedStatus, LikedStatusType } from '../../constants/errorStatus';
 import { addVideoDataToStore, getVideoDataFromStore, videoComponentListStore } from '../../store/videoComponentStore';
 import { inject, observer } from 'mobx-react';
 import { SavedVideosStore } from '../../store/SavedVideosStore';
-import {reaction, autorun} from 'mobx'
+import { reaction, autorun } from 'mobx'
 interface VideoComponentProps {
 
 }
 
-interface VideoComponentInjectedProps{
-    savedVideoStore:SavedVideosStore;
+interface VideoComponentInjectedProps {
+    savedVideoStore: SavedVideosStore;
 }
 
 export const getVideoResponseTypeData = (data: Video) => {
@@ -77,16 +77,17 @@ const VideoComponent = inject('savedVideoStore')(
 
         const { savedVideoStore } = props as VideoComponentInjectedProps;
 
-        autorun(() =>{
-            console.log('storeLen changes: ', savedVideoStore.videos.length);
-        })
+        // autorun(() => {
+        //     console.log('storeLen changes: ', savedVideoStore.videos.length);
+        // })
 
-        reaction(() => savedVideoStore.videos.length,
-            len => {
-                console.log(len);
-                console.log('video saved')
-            }
-        )
+        // reaction(() => savedVideoStore.videos.length,
+        //     len => {
+        //         console.log(len);
+        //         console.log('video saved')
+        //     },
+        //     { fireImmediately: true }
+        // )
 
         const updateVideoSavedStatus = () => {
             setVideoSavedStatus(!videoSavedStatus);
