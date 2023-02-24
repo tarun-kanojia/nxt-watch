@@ -4,22 +4,23 @@ import { RefStoreType, VideoListResponse, VideoResponse } from "../model/types";
 import { Video } from "../model/Video";
 import { VideoList } from "../model/VideoList";
 import { TransportLayer } from "../service/TransportLayer";
+import { RootStore } from "./RootStore";
 export class TrendingVideoStore {
     @observable videos: Video[];
-    refStore: RefStoreType;
+    rootStoreRef: RootStore;
     transportLayer: TransportLayer;
-    constructor(transportLayerRef: TransportLayer, storeRef:RefStoreType) {
+    constructor(transportLayerRef: TransportLayer, rootStoreRef:RootStore) {
         this.transportLayer = transportLayerRef;
         this.videos = [];
-        this.refStore = storeRef;
+        this.rootStoreRef = rootStoreRef;
 
     }
 
-    @action loadVideos = async () => {
+    @action loadVideos = async (bearerToken:string) => {
         try {
 
-            const videosResponseJson: VideoResponse[] = await this.transportLayer.fetchTrendingVideos();
-            this.videos = videosResponseJson.map((video) => new Video(video, this.refStore));
+            const videosResponseJson: VideoResponse[] = await this.transportLayer.fetchTrendingVideos(bearerToken);
+            this.videos = videosResponseJson.map((video) => new Video(video, this));
 
         }
 

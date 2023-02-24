@@ -20,3 +20,5 @@ export class SavedVideoStore {
 
 
 }
+
+const savedVideoStore = new SavedVideoStore(); 

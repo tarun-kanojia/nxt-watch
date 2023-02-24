@@ -1,23 +1,26 @@
 import { action, computed, observable } from "mobx";
-import { RefStoreType, VideoResponse } from "../model/types";
+import { GamingVideo } from "../model/GamingVideoList";
+import { RefStoreType, VideoResponse,VideoBaseResponse, GamingVideoType } from "../model/types";
 import { Video } from "../model/Video";
+
+import {VideoBase} from "../model/VideoBase"
 import { TransportLayer } from "../service/TransportLayer";
+import { RootStore } from "./RootStore";
 export class GamingVideoStore {
-    @observable videos: Video[];
-    
-    refStore:RefStoreType;
+    @observable videos: GamingVideo[];
+    rootStoreRef:RootStore;
     transportLayer: TransportLayer;
-    constructor(transportLayerRef: TransportLayer, storeRef:RefStoreType) {
+    constructor(transportLayerRef: TransportLayer, rootStoreRef:RootStore) {
         this.transportLayer = transportLayerRef;
         this.videos = [];
-        this.refStore = storeRef;
+        this.rootStoreRef = rootStoreRef;
     }
 
-    @action loadVideos = async () => {
+    @action loadVideos = async (bearerToken:string) => {
         try {
 
-            const videosResponseJson: VideoResponse[] = await this.transportLayer.fetchGamingVideos();
-            this.videos = videosResponseJson.map((video) => new Video(video, this.refStore));
+            const videosResponseJson: GamingVideoType[] = await this.transportLayer.fetchGamingVideos(bearerToken);
+            this.videos = videosResponseJson.map((video) => new GamingVideo(video, this));
 
         }
 

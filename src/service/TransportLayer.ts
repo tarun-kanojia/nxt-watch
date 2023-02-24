@@ -10,16 +10,17 @@ interface TransportLayerType {
 }
 
 export class TransportLayer {
-    bearerToken: string;
-    constructor(apiCallerRequest: TransportLayerType) {
-        this.bearerToken = apiCallerRequest.bearerToken;
+    bearerToken: string|null;
+    constructor(apiCallerRequest: TransportLayerType|null) {
+        this.bearerToken = apiCallerRequest ? apiCallerRequest.bearerToken : null;
     }
 
-    fetchHomeVideos = async () => {
+    fetchHomeVideos = async (bearerToken:string) => {
+        // console.log('Bearer Token',this.bearerToken);
         const requestOption = {
             method: 'GET',
             headers: {
-                Authorization: `Bearer ${this.bearerToken}`,
+                Authorization: `Bearer ${bearerToken}`,
                 "Content-Type": "application/json"
             },
         }
@@ -38,10 +39,10 @@ export class TransportLayer {
     }
 
 
-    fetchGamingVideos = async () => {
+    fetchGamingVideos = async (bearerToken:string) => {
         const requestOption = {
             headers: {
-                Authorization: `Bearer ${this.bearerToken}`,
+                Authorization: `Bearer ${bearerToken}`,
                 "Content-Type": "application/json"
             },
 
@@ -62,10 +63,10 @@ export class TransportLayer {
         }
     }
 
-    fetchTrendingVideos = async () => {
+    fetchTrendingVideos = async (bearerToken:string) => {
         const requestOption = {
             headers: {
-                Authorization: `Bearer ${this.bearerToken}`,
+                Authorization: `Bearer ${bearerToken}`,
                 "Content-Type": "application/json"
             },
 

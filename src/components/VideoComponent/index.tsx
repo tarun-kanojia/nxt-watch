@@ -17,28 +17,34 @@ import { PageWrapper } from '../Home/style';
 import Loader from '../Loader';
 import { LikedStatus, LikedStatusType } from '../../constants/errorStatus';
 import { addVideoDataToStore, getVideoDataFromStore, videoComponentListStore } from '../../store/videoComponentStore';
+import { inject, observer } from 'mobx-react';
+import { SavedVideosStore } from '../../store/SavedVideosStore';
 
 interface VideoComponentProps {
 
 }
 
-export const getVideoResponseTypeData = (data:Video) => {
-  return ({
-    channel:{
-        name: data.channel.name,
-        profile_image_url: data.channel.profileImageUrl,
-        subscriber_count: data.channel.subscriberCount
+interface VideoComponentInjectedProps{
+    savedVideoStore:SavedVideosStore;
+}
 
-    },
-    id: data.id,
-    published_at: data.publishedAt,
-    thumbnail_url: data.thumbnailUrl,
-    title: data.title,
-    view_count: data.viewCount,
-    video_url: data.videoUrl,
-    is_liked:data.isLiked,
-    description: data.description
-  })
+export const getVideoResponseTypeData = (data: Video) => {
+    return ({
+        channel: {
+            name: data.channel.name,
+            profile_image_url: data.channel.profileImageUrl,
+            subscriber_count: data.channel.subscriberCount
+
+        },
+        id: data.id,
+        published_at: data.publishedAt,
+        thumbnail_url: data.thumbnailUrl,
+        title: data.title,
+        view_count: data.viewCount,
+        video_url: data.videoUrl,
+        is_liked: data.isLiked,
+        description: data.description
+    })
 }
 
 
@@ -58,172 +64,181 @@ const savedVideoStatus = (videoList: SavedVideosType | null, id: string | undefi
     return isSaved;
 }
 
-const VideoComponent = ({ }) => {
-    const videoId = useParams().id;
-    const videoList = useContext(SavedVideosContext);
-    const [videoData, setVideoData] = useState<Video | null>(null)
-    const [actionIconButtonList, setActionIconButtonList] = useState(new ActionIconButtonList(ICONS))
-    const [videoSavedStatus, setVideoSavedStatus] = useState(savedVideoStatus(videoList, videoId));
-  
 
-    const updateVideoSavedStatus = () => {
-        setVideoSavedStatus(!videoSavedStatus);
 
-    }
 
-    const updateActionButtonList = (list: ActionIconButtonList) => {
-        setActionIconButtonList(new ActionIconButtonList(list))
-    }
+const VideoComponent = inject('savedVideoStore')(
+    observer((props: any) => {
+        const videoId = useParams().id;
+        const videoList = useContext(SavedVideosContext);
+        const [videoData, setVideoData] = useState<Video | null>(null)
+        const [actionIconButtonList, setActionIconButtonList] = useState(new ActionIconButtonList(ICONS))
+        const [videoSavedStatus, setVideoSavedStatus] = useState(savedVideoStatus(videoList, videoId));
 
-    //extracting id from url
-    const getVideoId = (videoUrl: string | undefined) => {
-        return videoUrl == undefined ? ''
-            : videoUrl.substring(videoUrl.indexOf('=') + 1);
-    }
+        const { savedVideoStore } = props as VideoComponentInjectedProps;
 
-    const updateVideoData = (data: Video) => {
-        // const newData = getVideoResponseTypeData({...data});
-        // console.log(newData)
-        setVideoData(data);
-        // console.log(newData.isLiked)
-    }
-
-    const updateTheStatus = (newVideoData: Video) => {
-        if (videoList) {
-            videoList.updateSaveVideoList({ ...newVideoData });
-            updateVideoData(newVideoData);
-            console.log('inside updateTheStatus: ', videoList)
-            updateVideoSavedStatus();
+        const updateVideoSavedStatus = () => {
+            setVideoSavedStatus(!videoSavedStatus);
 
         }
 
-    }
-
-    const toggleSavedStatus = () => {
-
-        if (videoData) {
-            videoData.toggleSavedStatus();
-            updateTheStatus(videoData)
-            updateVideoSavedStatus();
-
-
+        const updateActionButtonList = (list: ActionIconButtonList) => {
+            setActionIconButtonList(new ActionIconButtonList(list))
         }
 
-    }
-
-    const getVideoData = async () => {
-        const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN);
-        const requestOption = {
-            headers: {
-                Authorization: `Bearer ${jwtToken}`,
-                "Content-Type": "application/json"
-            },
-
-            method: 'GET'
-
+        //extracting id from url
+        const getVideoId = (videoUrl: string | undefined) => {
+            return videoUrl == undefined ? ''
+                : videoUrl.substring(videoUrl.indexOf('=') + 1);
         }
 
-        try {
-            if (!videoId) throw new Error();
-            let videoResponseData: Video | null = null;
-            const storeData = getVideoDataFromStore(videoId);
-            if (storeData === null) {
+        const updateVideoData = (data: Video) => {
+            // const newData = getVideoResponseTypeData({...data});
+            // console.log(newData)
+            setVideoData(data);
+            // console.log(newData.isLiked)
+        }
 
-                const response = await fetch(VIDEOS_BASE_URL + `/${videoId}`, requestOption);
-                const responseData: { video_details: VideoResponse } = await response.json();
-                // console.log(responseData)
-                const videoResponse: VideoResponse = responseData.video_details;
-                videoResponseData = new Video(videoResponse);
-                // setVideoData(new Video(responseVideoData));
-                
-                addVideoDataToStore(videoResponseData);
-
-            } else {
-                videoResponseData = getVideoDataFromStore(videoId)
+        const updateTheStatus = (newVideoData: Video) => {
+            if (videoList) {
+                videoList.updateSaveVideoList({ ...newVideoData });
+                updateVideoData(newVideoData);
+                console.log('inside updateTheStatus: ', videoList)
+                updateVideoSavedStatus();
 
             }
-            window.setTimeout(() => {
-                if (videoResponseData !== null) updateVideoData(videoResponseData)
-            }, 100);
 
-
-
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    console.log(videoData?.isLiked);
-
-
-    useEffect(() => {
-        getVideoData();
-
-
-    }, [])
-
-
-    const onClickIcon = (videoData: Video) => {
-        if (videoList !== null) {
-            videoList.updateSaveVideoList(videoData)
         }
 
-    }
-    // console.log(videoSavedStatus)
+        const toggleSavedStatus = () => {
 
-    return (
-        videoData == null ?
-            <Loader />
+            if (videoData) {
+                videoData.toggleSavedStatus();
+                updateTheStatus(videoData)
+                updateVideoSavedStatus();
 
-            :
-            <PageWrapper>
 
-                <VideoContainer>
+            }
 
-                    <YoutubeEmbed videoId={getVideoId(videoData.videoUrl)} opts={youtubeStyleOpts} />
-                    <Title>{videoData.title}</Title>
-                    <VideoActonWrapper>
-                        <VideoAnalyticsWrapper>
-                            <ViewCount>{`${videoData.viewCount} views`}</ViewCount>
-                            <DoteIcon />
-                            <Duration>{`${getDuration(videoData.publishedAt)} ago`}</Duration>
-                        </VideoAnalyticsWrapper>
-                        <ActionButtonWrapper>
-                            <ActionButtonList
-                                actionIconButtonList={actionIconButtonList}
-                                updateActionButtonList={updateActionButtonList}
-                                video={videoData}
-                                updateVideoData={updateVideoData}
-                            />
-                            <CenterContainer onClick={() => {
+        }
 
-                                toggleSavedStatus()
-                                // updateVideoSavedStatus();
-                            }}>
+        const getVideoData = async () => {
+            const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN);
 
-                                <BiSave size='2rem'
-                                    color={videoSavedStatus ? '#3b82f6' : 'grey'}
+            try {
+                if (!videoId) throw new Error();
+
+
+                const requestOption = {
+                    headers: {
+                        Authorization: `Bearer ${jwtToken}`,
+                        "Content-Type": "application/json"
+                    },
+
+                    method: 'GET'
+
+                }
+                let videoResponseData: Video | null = null;
+                const storeData = getVideoDataFromStore(videoId);
+                if (storeData === null) {
+
+                    const response = await fetch(VIDEOS_BASE_URL + `/${videoId}`, requestOption);
+                    const responseData: { video_details: VideoResponse } = await response.json();
+                    // console.log(responseData)
+                    const videoResponse: VideoResponse = responseData.video_details;
+                    videoResponseData = new Video(videoResponse);
+                    // setVideoData(new Video(responseVideoData));
+
+                    addVideoDataToStore(videoResponseData);
+
+                } else {
+                    videoResponseData = getVideoDataFromStore(videoId)
+
+                }
+                window.setTimeout(() => {
+                    if (videoResponseData !== null) updateVideoData(videoResponseData)
+                }, 100);
+
+
+
+
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        console.log(videoData?.isLiked);
+
+
+        useEffect(() => {
+            getVideoData();
+
+
+        }, [])
+
+
+        const onClickIcon = (videoData: Video) => {
+            if (videoList !== null) {
+                videoList.updateSaveVideoList(videoData)
+            }
+
+        }
+        // console.log(videoSavedStatus)
+
+        return (
+            videoData == null ?
+                <Loader />
+
+                :
+                <PageWrapper>
+
+                    <VideoContainer>
+
+                        <YoutubeEmbed videoId={getVideoId(videoData.videoUrl)} opts={youtubeStyleOpts} />
+                        <Title>{videoData.title}</Title>
+                        <VideoActonWrapper>
+                            <VideoAnalyticsWrapper>
+                                <ViewCount>{`${videoData.viewCount} views`}</ViewCount>
+                                <DoteIcon />
+                                <Duration>{`${getDuration(videoData.publishedAt)} ago`}</Duration>
+                            </VideoAnalyticsWrapper>
+                            <ActionButtonWrapper>
+                                <ActionButtonList
+                                    actionIconButtonList={actionIconButtonList}
+                                    updateActionButtonList={updateActionButtonList}
+                                    video={videoData}
+                                    updateVideoData={updateVideoData}
                                 />
-                                <span>Save</span>
-                            </CenterContainer>
-                        </ActionButtonWrapper>
-                    </VideoActonWrapper>
+                                <CenterContainer onClick={() => {
 
-                    <Divider />
+                                    toggleSavedStatus();
+                                    savedVideoStore.toggleVideoData(videoData);
+                                    // updateVideoSavedStatus();
+                                }}>
 
-                    <ChannelWrapper>
-                        <ChannelProfile src={videoData.channel.profileImageUrl} />
-                        <ChannelDetails>
-                            <ChannelName>{videoData.channel.name}</ChannelName>
-                            <ChannelSubscribersCount>{`${videoData.channel.subscriberCount} subscribers`}</ChannelSubscribersCount>
-                            <ChannelDescription>{videoData.description}</ChannelDescription>
-                        </ChannelDetails>
-                    </ChannelWrapper>
+                                    <BiSave size='2rem'
+                                        color={videoSavedStatus ? '#3b82f6' : 'grey'}
+                                    />
+                                    <span>Save</span>
+                                </CenterContainer>
+                            </ActionButtonWrapper>
+                        </VideoActonWrapper>
 
-                </VideoContainer>
-            </PageWrapper>
+                        <Divider />
 
-    );
-}
+                        <ChannelWrapper>
+                            <ChannelProfile src={videoData.channel.profileImageUrl} />
+                            <ChannelDetails>
+                                <ChannelName>{videoData.channel.name}</ChannelName>
+                                <ChannelSubscribersCount>{`${videoData.channel.subscriberCount} subscribers`}</ChannelSubscribersCount>
+                                <ChannelDescription>{videoData.description}</ChannelDescription>
+                            </ChannelDetails>
+                        </ChannelWrapper>
+
+                    </VideoContainer>
+                </PageWrapper>
+
+        );
+    })
+);
 
 export default VideoComponent;
