@@ -3,8 +3,11 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { LoginMetaData } from '../../model/LoginMetaData';
 import LoginForm from './LoginForm';
 import { getCookie } from '../../util/storage/StorageUtil';
-import { CenterContainer} from './style';
+import { CenterContainer } from './style';
 import { LOCAL_STORAGE } from '../../util/storage/constant';
+import { inject, observer } from 'mobx-react';
+import { TransportLayer } from '../../service/TransportLayer';
+import { IReactComponent } from 'mobx-react/dist/types/IReactComponent';
 
 export enum LoginReducerAction {
     CHANGE_USERNAME = 'change_username',
@@ -25,14 +28,20 @@ const loginReducer = (loginMetaData: LoginMetaData, action: LoginActionType) => 
     }
 }
 
-const Login = () => {
+
+
+const Login = (props:any) => {
+
     const [loginMetaData, loginDispatch] = useReducer(loginReducer, new LoginMetaData())
-    
+
+
     const JWT_TOKEN = getCookie(LOCAL_STORAGE.JWT_TOKEN);
     if (JWT_TOKEN && JWT_TOKEN !== '') {
+      
         return <Navigate to='/' />
     }
     else {
+        
         return (
             <CenterContainer width='100vw' height='100vh'>
                 <LoginForm loginMetaData={loginMetaData} loginDispatch={loginDispatch} />
@@ -40,6 +49,6 @@ const Login = () => {
             </CenterContainer>
         );
     }
-}
+};
 
 export default Login;

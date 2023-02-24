@@ -13,13 +13,14 @@ import { LOCAL_STORAGE } from '../../util/storage/constant';
 import Loader from '../Loader';
 import { APIStatus } from '../../constants/errorStatus';
 import ErrorComponent from '../ErrorComponent';
+import { inject, observer } from 'mobx-react';
+import { HomeVideoStore } from '../../store/HomeVideoStore';
 
 export const Render = (
     errorStatus: APIStatus,
-
     SuccessComponent: React.ReactNode,
     retryFunction: Function) => {
-        
+
     switch (errorStatus) {
         case APIStatus.PRESENT:
             return (<>
@@ -37,11 +38,18 @@ export const Render = (
     }
 }
 
-const Home = () => {
+interface HomeInjectedPops{
+    homeVideoStore:HomeVideoStore
+}
+
+const Home = inject('homeVideoStore')(observer((props:any) => {
     const [querry, setQuerry] = useState('')
     const [videoDataList, setVideoDataList] = useState<VideoList>({});
     const [showPrimeBanner, setShowPrimeBanner] = useState(true);
     const [errorStatus, setErrorStatus] = useState(APIStatus.IN_PROGRESS)
+    
+    const {homeVideoStore} = props as HomeInjectedPops;
+
     const hidePrimeBanner = () => {
         setShowPrimeBanner(false);
     }
@@ -62,29 +70,14 @@ const Home = () => {
 
     const getVideoList = async () => {
         try {
-            const list: null|VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
-            if (list) {
-                const listData = new VideoList(list);
-                setVideoDataList(listData);
-
-            } else {
-
-                const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN)
-                const requestOption = {
-                    headers: {
-                        Authorization: `Bearer ${jwtToken}`,
-                        "Content-Type": "application/json"
-                    },
-
-                    method: 'GET'
-
-                }
-                const listResponse = await fetch(ALL_VIDEOS_URL, requestOption);
-                const listDataResponse: VideoListResponse = await listResponse.json();
-                updateVideoListToStore(LOCAL_STORAGE.HOME_VIDEO_LIST, listDataResponse);
-                const listData = new VideoList(listDataResponse);
-                setVideoDataList(listData);
+            // const list: null | VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
+            
+            if(!homeVideoStore.videos.length) {
+                const bearerToken = getCookie(LOCAL_STORAGE.JWT_TOKEN);
+                homeVideoStore.loadVideos(bearerToken);
+            
             }
+            
 
             window.setTimeout(() => updateErrorStatus(APIStatus.PRESENT), 1000);
 
@@ -103,19 +96,19 @@ const Home = () => {
     const HomePage = () => {
         return (
             <>
-                    {showPrimeBanner ? <PrimeBanner hidePrimeBanner={hidePrimeBanner} /> : null}
-                    <SearchBar querry={querry} updateQuerry={updateQuerry} />
-                    <VideoCardList videoList={filterList(querry, videoDataList)} />
-               
+                {showPrimeBanner ? <PrimeBanner hidePrimeBanner={hidePrimeBanner} /> : null}
+                <SearchBar querry={querry} updateQuerry={updateQuerry} />
+                <VideoCardList videoList={filterList(querry, homeVideoStore.videos)} />
+
             </>
         )
     }
 
     return <PageWrapper>{Render(errorStatus, HomePage(), getVideoList)}</PageWrapper>
 
-    
 
 
-}
+
+}));
 
 export default Home;

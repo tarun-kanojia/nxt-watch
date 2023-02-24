@@ -1,9 +1,12 @@
+import { inject } from 'mobx-react'
+import { observer } from 'mobx-react-lite'
 import React, { useEffect, useState } from 'react'
 import { FaFire } from 'react-icons/fa'
 import { TRENDING_VIDEO_URL } from '../../constants/endPoints'
 import { APIStatus } from '../../constants/errorStatus'
 import { VideoListResponse } from '../../model/types'
 import { VideoList } from '../../model/VideoList'
+import { TrendingVideoStore } from '../../store/TrendingVideoStore'
 import { LOCAL_STORAGE } from '../../util/storage/constant'
 import { getCookie } from '../../util/storage/StorageUtil'
 import { getVideoListFromStore, updateVideoListToStore } from '../../util/storage/VideoListStore'
@@ -12,10 +15,16 @@ import { PageWrapper } from '../Home/style'
 import PageHeader from '../PageHeader'
 import VideoCardListHorizontal from '../VideoCardListHorizontal'
 
-const Trending = () => {
+interface TrendingInjectedProps {
+   trendingVideoStore: TrendingVideoStore
+}
+
+const Trending = inject('trendingVideoStore')(observer((props: any) => {
    // console.log('Inside trending')
    const [errorStatus, setErrorStatus] = useState(APIStatus.IN_PROGRESS)
    const [videoDataList, setVideoDataList] = useState({})
+
+   const { trendingVideoStore } = props as TrendingInjectedProps;
 
    const updateErrorStatus = (status: APIStatus) => {
       setErrorStatus(status);
@@ -23,29 +32,11 @@ const Trending = () => {
 
    const getVideoList = async () => {
       try {
-         const list: null|VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.TRENDING_VIDEO_LIST);
-         if (list) {
-            const listData = new VideoList(list);
-            setVideoDataList(listData)
-
-         } else {
-
-            const jwtToken = getCookie(LOCAL_STORAGE.JWT_TOKEN)
-            const requestOption = {
-               headers: {
-                  Authorization: `Bearer ${jwtToken}`,
-                  "Content-Type": "application/json"
-               },
-
-               method: 'GET'
-
-            }
-            const listResponse = await fetch(TRENDING_VIDEO_URL, requestOption);
-            const listData: VideoListResponse = await listResponse.json();
-            updateVideoListToStore(LOCAL_STORAGE.TRENDING_VIDEO_LIST, listData);
-            setVideoDataList(new VideoList(listData))
-
+         if (!trendingVideoStore.videos.length) {
+            const bearerToken = getCookie(LOCAL_STORAGE.JWT_TOKEN);
+            trendingVideoStore.loadVideos(bearerToken);
          }
+         
          window.setTimeout(() => setErrorStatus(APIStatus.PRESENT), 1000);
       } catch (error) {
          setErrorStatus(APIStatus.FAILED)
@@ -62,7 +53,7 @@ const Trending = () => {
       return (
          <>
             <PageHeader Icon={FaFire} title='Trending' />
-            <VideoCardListHorizontal videoDataList={videoDataList} />
+            <VideoCardListHorizontal videoDataList={trendingVideoStore.videos} />
          </>
       )
    }
@@ -73,6 +64,6 @@ const Trending = () => {
    )
 
 
-}
+}));
 
 export default Trending;

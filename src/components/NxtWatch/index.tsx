@@ -1,6 +1,9 @@
+import { inject, observer, Provider } from 'mobx-react';
 import { chdir } from 'process';
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { TransportLayer } from '../../service/TransportLayer';
+import { RootStore } from '../../store/RootStore';
 import DashBoard from '../DashBoard';
 import Gaming from '../Gaming';
 import Header from '../Header';
@@ -15,22 +18,39 @@ interface NxtWatchProps {
     children: React.ReactNode
 }
 
-const NxtWatch = ({ children }: NxtWatchProps) => {
-
-    return (
-        <NxtWatchContainer>
-            <Fixed>
-
-                <Header />
-                <DashBoard />
-            </Fixed>
-
-            {children}
-        </NxtWatchContainer>
-
-
-
-    );
+interface InjectedProps extends NxtWatchProps {
+    rootStore: RootStore
+    transportLayerRef: TransportLayer
 }
+
+const NxtWatch = inject('rootStore', 'transportLayerRef')(
+    observer((props: NxtWatchProps) => {
+        // console.log('RootStore: ', props)
+        const { rootStore } = props as InjectedProps
+        return (
+            <Provider
+                homeVideoStore={rootStore.homeVideoStore}
+                gamingVideoStore={rootStore.gamingVideoStore}
+                trendingVideoStore={rootStore.trendingVideoStore}
+                savedVideoStore={rootStore.savedVideoStore}
+
+            >
+
+                <NxtWatchContainer>
+                    <Fixed>
+
+                        <Header />
+                        <DashBoard />
+                    </Fixed>
+
+                    {props.children}
+                </NxtWatchContainer>
+            </Provider>
+
+
+
+        );
+    })
+);
 
 export default NxtWatch;
