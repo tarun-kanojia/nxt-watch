@@ -7,16 +7,17 @@ import { TransportLayer } from "../service/TransportLayer";
 import { RootStore } from "./RootStore";
 export class HomeVideoStore {
     @observable videos: Video[];
-    rootStoreRef:RootStore;
+    rootStoreRef: RootStore;
     transportLayer: TransportLayer;
-    constructor(transportLayerRef: TransportLayer, rootStoreRef:RootStore) {
+    query:string;
+    constructor(transportLayerRef: TransportLayer, rootStoreRef: RootStore) {
         this.transportLayer = transportLayerRef;
         this.videos = [];
         this.rootStoreRef = rootStoreRef;
-
+        this.query = '';
     }
 
-    @action loadVideos = async (bearerToken:string) => {
+    @action loadVideos = async (bearerToken: string) => {
         try {
             // console.log('inside HomeVideoStore loading videos')
             const videosResponseJson: VideoResponse[] = await this.transportLayer.fetchHomeVideos(bearerToken);
@@ -31,8 +32,14 @@ export class HomeVideoStore {
 
     }
 
-    @computed filterVideos = (query: string): Video[] => {
-        return this.videos.filter((video) => video.title.toLowerCase() === query.toLocaleLowerCase());
+    @action 
+    set updateQuery(q:string){
+      this.query = q;
+    }
+
+    @computed
+    get filterVideos(): Video[] {
+        return this.videos.filter((video) => video.title.toLowerCase() === this.query.toLocaleLowerCase());
     }
 
 }

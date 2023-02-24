@@ -86,6 +86,7 @@ const Home = inject('homeVideoStore')(observer((props: any) => {
         }
     }
 
+    console.log(homeVideoStore.filterVideos);
 
     useEffect(() => {
         getVideoList();
