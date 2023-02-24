@@ -19,7 +19,7 @@ import { LikedStatus, LikedStatusType } from '../../constants/errorStatus';
 import { addVideoDataToStore, getVideoDataFromStore, videoComponentListStore } from '../../store/videoComponentStore';
 import { inject, observer } from 'mobx-react';
 import { SavedVideosStore } from '../../store/SavedVideosStore';
-
+import {reaction, autorun} from 'mobx'
 interface VideoComponentProps {
 
 }
@@ -77,6 +77,17 @@ const VideoComponent = inject('savedVideoStore')(
 
         const { savedVideoStore } = props as VideoComponentInjectedProps;
 
+        autorun(() =>{
+            console.log('storeLen changes: ', savedVideoStore.videos.length);
+        })
+
+        reaction(() => savedVideoStore.videos.length,
+            len => {
+                console.log(len);
+                console.log('video saved')
+            }
+        )
+
         const updateVideoSavedStatus = () => {
             setVideoSavedStatus(!videoSavedStatus);
 
@@ -103,7 +114,7 @@ const VideoComponent = inject('savedVideoStore')(
             if (videoList) {
                 videoList.updateSaveVideoList({ ...newVideoData });
                 updateVideoData(newVideoData);
-                console.log('inside updateTheStatus: ', videoList)
+                // console.log('inside updateTheStatus: ', videoList)
                 updateVideoSavedStatus();
 
             }
@@ -166,7 +177,7 @@ const VideoComponent = inject('savedVideoStore')(
                 console.log(error);
             }
         }
-        console.log(videoData?.isLiked);
+        // console.log(videoData?.isLiked);
 
 
         useEffect(() => {

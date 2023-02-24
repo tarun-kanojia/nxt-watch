@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action, observable, reaction } from "mobx";
 import { Video } from "../model/Video";
 import { TransportLayer } from "../service/TransportLayer";
 import { RootStore } from "./RootStore";
@@ -13,16 +13,19 @@ export class SavedVideosStore {
     this.videos = [];
   }
 
-  @action toggleVideoData = (videoData: Video) => {
+  @action 
+  toggleVideoData = (videoData: Video) => {
     if (this.videos.some((video) => video.id === videoData.id)) {
       this.videos = this.videos.filter((video) => video.id !== videoData.id);
-    
+
     } else this.videos.push(videoData);
   }
 
-  @action loadVideos = () => {
+  @action 
+  loadVideos = () => {
     console.log('loading gaming videos');
   }
 
 
 }
+

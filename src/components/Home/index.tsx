@@ -38,17 +38,17 @@ export const Render = (
     }
 }
 
-interface HomeInjectedPops{
-    homeVideoStore:HomeVideoStore
+interface HomeInjectedPops {
+    homeVideoStore: HomeVideoStore
 }
 
-const Home = inject('homeVideoStore')(observer((props:any) => {
+const Home = inject('homeVideoStore')(observer((props: any) => {
     const [querry, setQuerry] = useState('')
     const [videoDataList, setVideoDataList] = useState<VideoList>({});
     const [showPrimeBanner, setShowPrimeBanner] = useState(true);
     const [errorStatus, setErrorStatus] = useState(APIStatus.IN_PROGRESS)
-    
-    const {homeVideoStore} = props as HomeInjectedPops;
+
+    const { homeVideoStore } = props as HomeInjectedPops;
 
     const hidePrimeBanner = () => {
         setShowPrimeBanner(false);
@@ -70,14 +70,13 @@ const Home = inject('homeVideoStore')(observer((props:any) => {
 
     const getVideoList = async () => {
         try {
-            // const list: null | VideoListResponse = getVideoListFromStore(LOCAL_STORAGE.HOME_VIDEO_LIST);
-            
-            if(!homeVideoStore.videos.length) {
+
+            if (!homeVideoStore.videos.length) {
                 const bearerToken = getCookie(LOCAL_STORAGE.JWT_TOKEN);
                 homeVideoStore.loadVideos(bearerToken);
-            
+
             }
-            
+
 
             window.setTimeout(() => updateErrorStatus(APIStatus.PRESENT), 1000);
 

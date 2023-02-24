@@ -49,18 +49,18 @@ function App () {
     } else {
       newSavedVideoList = newSavedVideoList.filter((video) => video.id !== data.id)
     }
-    console.log(newSavedVideoList);
+    // console.log(newSavedVideoList);
     setSavedVideos(newSavedVideoList);
   }
 
 
   const closeLogoutModal = () => {
-    console.log('modal close')
+    // console.log('modal close')
     setIsLogoutModalOpen(false);
   }
 
   const openLogoutModal = () => {
-    console.log('modal open')
+    // console.log('modal open')
     setIsLogoutModalOpen(true);
   }
   const toggleModal = () => {

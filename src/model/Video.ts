@@ -20,7 +20,7 @@ export class Video extends VideoBase {
     }
 
     @action toggleSavedStatus = () => {
-        console.log(this)
+        // console.log(this)
         this.isSaved = !this.isSaved;
          
     }

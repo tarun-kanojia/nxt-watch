@@ -23,7 +23,7 @@ const ProtectedRoute = ({ renderElement }: ProtectedRouteProps) => {
     
 
 
-    console.log('JWT_TOKEN', JWT_TOKEN)
+    // console.log('JWT_TOKEN', JWT_TOKEN)
     const isToken = JWT_TOKEN === '' ? JWT_TOKEN_UPDATE.MISSING : JWT_TOKEN_UPDATE.PRESENT;
 
     switch (isToken) {
