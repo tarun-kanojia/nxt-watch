@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AiFillHome } from "react-icons/ai";
-import { FaHome } from "react-icons/fa";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import { ThemeContextHook } from "../../hooks/ThemeContext";
 import { DashBoardContentModel } from "../../model/DashboardContent";
 import { DASH_BOARD_CONTENT } from "./constants";
