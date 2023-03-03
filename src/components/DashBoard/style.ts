@@ -64,11 +64,31 @@ export const DashBoardElement = styled.div`
         
     }
 
+    &:hover {
+        font-size: 2rem;
+        transition: font-size 0.1s linear;
+    }
+
+   
+
+
 `;
 
 export const ElementLogo = styled.div`
-   width: 100%;
-   aspect-ratio: 1/1;
+    width: 100%;
+    aspect-ratio: 1/1;
+    @media screen and (max-width:670px){
+        
+        &:hover{
+            width: 150%;
+            font-weight: bolder;
+            transition: width 0.1s linear;
+            
+        }
+    }
+
+   
+
 `;
 
 
@@ -77,7 +97,7 @@ export const ElementText = styled.p<any>`
     text-transform: capitalize;
     color: ${(props) => props.theme.DASH_BOARD_TXT_COLOR};
     font-size: larger;
-    font-weight: ${(props) => props.active ? 'bold' : null };
+    font-weight: ${(props) => props.active ? 'bold' : null};
 
     @media screen and (max-width:670px){
         margin-bottom: 0rem;
