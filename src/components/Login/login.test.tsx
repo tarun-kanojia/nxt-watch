@@ -1,16 +1,10 @@
 import React from "react";
-import {
-    render,
-    cleanup,
-    screen,
-    queryByText,
-    fireEvent,
-    waitFor,
-} from "@testing-library/react";
+import { render, cleanup, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { CredentialInput } from "./style";
+
 import LoginForm from "./LoginForm";
 import { LoginMetaData } from "../../model/LoginMetaData";
+
 import {
     failureLoginMetaData,
     successLoginMetaData,
@@ -133,7 +127,5 @@ describe("test showPassword click button", () => {
         expect(
             getByTestId("credential-password-id").getAttribute("type")
         ).toEqual("text");
-        
     });
 });
-
