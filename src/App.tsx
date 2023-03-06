@@ -17,7 +17,7 @@ import { LogoutModalContext } from './hooks/ModalContext';
 import { LOCAL_STORAGE } from './util/storage/constant';
 import { THEME_DARK, THEME_LIGHT } from './constants/style';
 import { RootStore } from './store/RootStore';
-import { TransportLayer } from './service/TransportLayer';
+import { TransportLayer } from './service/TarnsportLayer/index.api';
 import { GamingVideoStore } from './store/GamingVideoStore';
 import { HomeVideoStore } from './store/HomeVideoStore';
 import { TrendingVideoStore } from './store/TrendingVideoStore';

@@ -4,7 +4,7 @@ import { RefStoreType, VideoResponse,VideoBaseResponse, GamingVideoType } from "
 import { Video } from "../model/Video";
 
 import {VideoBase} from "../model/VideoBase"
-import { TransportLayer } from "../service/TransportLayer";
+import { TransportLayer } from "../service/TarnsportLayer/index.api";
 import { RootStore } from "./RootStore";
 export class GamingVideoStore {
     @observable videos: GamingVideo[];

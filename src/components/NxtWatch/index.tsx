@@ -2,7 +2,7 @@ import { inject, observer, Provider } from 'mobx-react';
 import { chdir } from 'process';
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { TransportLayer } from '../../service/TransportLayer';
+import { TransportLayer } from '../../service/TarnsportLayer/index.api';
 import { RootStore } from '../../store/RootStore';
 import DashBoard from '../DashBoard';
 import Gaming from '../Gaming';

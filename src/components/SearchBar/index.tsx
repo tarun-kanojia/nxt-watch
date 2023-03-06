@@ -1,25 +1,43 @@
-import React from 'react'
-import { SearchContainer, SearchIcon, SearchIconWrapper, SearchInput } from './style';
+import { inject } from "mobx-react";
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { HomeVideoStore } from "../../store/HomeVideoStore";
+import {
+    SearchContainer,
+    SearchIcon,
+    SearchIconWrapper,
+    SearchInput,
+} from "./style";
 
 interface SearchBarProps {
-    querry:string;
-    updateQuerry:Function;
+    query: string;
+    updateQuery: Function;
 }
 
-const SearchBar = ({ querry, updateQuerry}:SearchBarProps) => {
-    return (
-        <SearchContainer>
-            <SearchInput 
-                placeholder='search'
-                value={querry}
-                onChange = {(e) => updateQuerry(e.target.value)}
-            />
-            <SearchIconWrapper>
-
-            <SearchIcon size='100%' />
-            </SearchIconWrapper>
-        </SearchContainer>
-    );
+interface InjectedProps extends SearchBarProps {
+    homeVideoStore: HomeVideoStore;
 }
+
+const SearchBar = inject("homeVideoStore")(
+    observer((props: SearchBarProps) => {
+        const { homeVideoStore, query, updateQuery } = props as InjectedProps;
+        console.log(homeVideoStore.query,'query');
+        return (
+            <SearchContainer>
+                <SearchInput
+                    data-testid="search-bar"
+                    placeholder="search"
+                    value={homeVideoStore.query}
+                    onChange={(e) => {
+                        homeVideoStore.setQuery(e.target.value);
+                    }}
+                />
+                <SearchIconWrapper>
+                    <SearchIcon size="100%" />
+                </SearchIconWrapper>
+            </SearchContainer>
+        );
+    })
+);
 
 export default SearchBar;

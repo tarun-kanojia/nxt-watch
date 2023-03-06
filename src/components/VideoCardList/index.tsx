@@ -16,7 +16,7 @@ interface VideoCardListProps {
 const VideoCardList = ({ videoList }: VideoCardListProps) => {
     const navigate = useNavigate();
     const renderVideoCards = (videoList: Video[]) => {
-        return (videoList.length ?
+        return (videoList.length > 0 ?
 
             <VideoCardListWrapper>
                 {

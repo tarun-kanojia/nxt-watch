@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { RefStoreType, VideoListResponse, VideoResponse } from "../model/types";
 import { Video } from "../model/Video";
 import { VideoList } from "../model/VideoList";
-import { TransportLayer } from "../service/TransportLayer";
+import { TransportLayer } from "../service/TarnsportLayer/index.api";
 import { RootStore } from "./RootStore";
 export class TrendingVideoStore {
     @observable videos: Video[];

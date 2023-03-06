@@ -64,7 +64,7 @@ const LoginForm = ({ loginMetaData, loginDispatch }: LoginFormProps) => {
         try {
             // const validateFormCredential = await validateForm(loginMetaData);
             const validation = await checkForValidation(loginMetaData);
-            console.log("validation");
+            // console.log("validation");
             const requestOption = {
                 method: "POST",
                 body: JSON.stringify({
