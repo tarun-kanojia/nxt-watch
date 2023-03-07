@@ -1,5 +1,5 @@
 import { inject } from 'mobx-react'
-import { observer } from 'mobx-react-lite'
+import { observer } from 'mobx-react'
 import React, { useEffect, useState } from 'react'
 import { FaFire } from 'react-icons/fa'
 import { TRENDING_VIDEO_URL } from '../../constants/endPoints'
@@ -37,7 +37,7 @@ const Trending = inject('trendingVideoStore')(observer((props: any) => {
             trendingVideoStore.loadVideos(bearerToken);
          }
          
-         window.setTimeout(() => setErrorStatus(APIStatus.PRESENT), 1000);
+         window.setTimeout(() => setErrorStatus(APIStatus.PRESENT), 200);
       } catch (error) {
          setErrorStatus(APIStatus.FAILED)
          console.log(error)
@@ -52,13 +52,13 @@ const Trending = inject('trendingVideoStore')(observer((props: any) => {
    const TrendingPage = () => {
       return (
          <>
-            <PageHeader Icon={FaFire} title='Trending' />
+            <PageHeader  Icon={FaFire} title='Trending' />
             <VideoCardListHorizontal videoDataList={trendingVideoStore.videos} />
          </>
       )
    }
 
-   return (<PageWrapper>
+   return (<PageWrapper data-testid='trending'>
       {Render(errorStatus, TrendingPage(), getVideoList)}
    </PageWrapper>
    )

@@ -1,28 +1,34 @@
-import React, { useState } from 'react'
-import { LOGO_URL } from '../../constants/icon';
-import { BannerHeaderWrapper, BannerTitle, BannerWrapper, Logo, RemoveBanner, TryOutPrimeButton } from './style';
+import React, { useState } from "react";
+import { LOGO_URL } from "../../constants/icon";
+import { HomeVideoStore } from "../../store/HomeVideoStore";
+import {
+    BannerHeaderWrapper,
+    BannerTitle,
+    BannerWrapper,
+    Logo,
+    RemoveBanner,
+    TryOutPrimeButton,
+} from "./style";
 
-const PrimeBanner = ({hidePrimeBanner}:{hidePrimeBanner:Function}) => {
-   
+const PrimeBanner = ({ hidePrimeBanner }: { hidePrimeBanner: Function }) => {
     return (
-
-        <BannerWrapper>
+        <BannerWrapper data-testid="banner">
             <BannerHeaderWrapper>
-
                 <Logo src={LOGO_URL} />
-                <RemoveBanner 
-                    size='2rem'
-                    onClick={() =>{
+                <RemoveBanner
+                    data-testid="banner-remove"
+                    size="2rem"
+                    onClick={() => {
                         hidePrimeBanner();
                     }}
                 />
             </BannerHeaderWrapper>
-            <BannerTitle> Buy Nxt Watch Premium prepaid plans with <br /> UPI </BannerTitle>
+            <BannerTitle>
+                Buy Nxt Watch Premium prepaid plans with <br /> UPI
+            </BannerTitle>
             <TryOutPrimeButton>Get It Now</TryOutPrimeButton>
         </BannerWrapper>
-
-
     );
-}
+};
 
 export default PrimeBanner;

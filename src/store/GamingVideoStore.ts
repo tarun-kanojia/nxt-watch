@@ -4,12 +4,14 @@ import { RefStoreType, VideoResponse,VideoBaseResponse, GamingVideoType } from "
 import { Video } from "../model/Video";
 
 import {VideoBase} from "../model/VideoBase"
-import { TransportLayer } from "../service/TransportLayer";
+import { TransportLayer } from "../service/TarnsportLayer/index.api";
+import { TransportLayer as TransportLayerFixture } from "../service/TarnsportLayer/index.fixture";
+
 import { RootStore } from "./RootStore";
 export class GamingVideoStore {
     @observable videos: GamingVideo[];
     rootStoreRef:RootStore;
-    transportLayer: TransportLayer;
+    transportLayer: TransportLayer|TransportLayerFixture;
     constructor(transportLayerRef: TransportLayer, rootStoreRef:RootStore) {
         this.transportLayer = transportLayerRef;
         this.videos = [];
