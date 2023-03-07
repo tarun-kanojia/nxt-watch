@@ -105,9 +105,7 @@ const Home = inject("homeVideoStore")(
         return (
             <PageWrapper data-testid="Home">
                 {showPrimeBanner ? (
-                    <PrimeBanner
-                        hidePrimeBanner={hidePrimeBanner}
-                    />
+                    <PrimeBanner hidePrimeBanner={hidePrimeBanner} />
                 ) : null}
                 {Render(errorStatus, HomePage(), getVideoList)}
             </PageWrapper>

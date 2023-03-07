@@ -1,4 +1,3 @@
-
 import {
     ALL_VIDEOS_URL,
     GAMING_VIDEO_URL,
@@ -21,16 +20,15 @@ export class TransportLayer {
             : null;
     }
 
-    fetchHomeVideos = async (bearerToken: string):Promise<VideoResponse[]> => {
-        // console.log('Bearer Token',this.bearerToken);
-        return new Promise(resolve => videoListFixture as VideoResponse[]);
+    fetchHomeVideos = async (bearerToken: string): Promise<VideoResponse[]> => {
+        return new Promise((resolve) => videoListFixture as VideoResponse[]);
     };
 
-    fetchGamingVideos = async (bearerToken: string) => {
-        
-    };
+    fetchGamingVideos = async (bearerToken: string) => {};
 
-    fetchTrendingVideos = async (bearerToken: string) => {
-       
+    fetchTrendingVideos = async (
+        bearerToken: string
+    ): Promise<VideoResponse[]> => {
+        return new Promise((resolve) => videoListFixture as VideoResponse[]);
     };
 }

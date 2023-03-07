@@ -4,11 +4,12 @@ import { RefStoreType, VideoListResponse, VideoResponse } from "../model/types";
 import { Video } from "../model/Video";
 import { VideoList } from "../model/VideoList";
 import { TransportLayer } from "../service/TarnsportLayer/index.api";
+import { TransportLayer as TransportLayerFixtureModel } from "../service/TarnsportLayer/index.fixture";
 import { RootStore } from "./RootStore";
 export class TrendingVideoStore {
     @observable videos: Video[];
     rootStoreRef: RootStore;
-    transportLayer: TransportLayer;
+    transportLayer: TransportLayer | TransportLayerFixtureModel;
     constructor(transportLayerRef: TransportLayer, rootStoreRef:RootStore) {
         this.transportLayer = transportLayerRef;
         this.videos = [];
