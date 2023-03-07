@@ -77,7 +77,7 @@ describe("test empty form fields on login button triggers", () => {
         );
 
         userEvent.click(getByTestId("login-on-click-event"));
-        screen.debug();
+        
         waitFor(() => {
             getByText("empty username");
         });
