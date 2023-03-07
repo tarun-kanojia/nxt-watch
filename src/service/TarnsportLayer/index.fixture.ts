@@ -3,7 +3,7 @@ import {
     GAMING_VIDEO_URL,
     TRENDING_VIDEO_URL,
 } from "../../constants/endPoints";
-import { RefStoreType, VideoResponse } from "../../model/types";
+import { GamingVideoType, RefStoreType, VideoResponse } from "../../model/types";
 import videoListFixture from "../../fixtures/getVideoList.json";
 interface TransportLayerType {
     endPoint: string;
@@ -24,7 +24,11 @@ export class TransportLayer {
         return new Promise((resolve) => videoListFixture as VideoResponse[]);
     };
 
-    fetchGamingVideos = async (bearerToken: string) => {};
+    fetchGamingVideos = async (
+        bearerToken: string
+    ): Promise<GamingVideoType[]> => {
+        return new Promise((resolve) => videoListFixture as GamingVideoType[]);
+    };
 
     fetchTrendingVideos = async (
         bearerToken: string

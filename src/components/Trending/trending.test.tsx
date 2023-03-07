@@ -17,7 +17,7 @@ describe("test for Trending Page rendering", () => {
     rootStore = new RootStore(null);
     transportLayer = new TransportLayer(null);
     trendingVideoStore = new TrendingVideoStore(transportLayer, rootStore);
-
+    const spyApi = jest.spyOn(trendingVideoStore, 'loadVideos');
     beforeEach(() => {
         const bearerToken = "token";
 
@@ -40,9 +40,14 @@ describe("test for Trending Page rendering", () => {
 
     it("[positive] should load trending videos", () => {
         //check if the videos are loaded correctly on mounting
-        waitFor(() => {
-            expect(trendingVideoStore.loadVideos).toBeCalledTimes(1);
-        });
+        expect(spyApi).toBeCalledTimes(1);
+        
+    });
+
+    it("[negative] should load trending videos more than ones", () => {
+        //check if the videos are loaded correctly on mounting
+        expect(spyApi).not.toBeCalledTimes(2);
+        
     });
 });
 
