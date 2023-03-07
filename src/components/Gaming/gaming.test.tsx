@@ -59,28 +59,4 @@ describe("Unit Test for Gaming Page Rendering", () => {
     });
 });
 
-describe("Integration Tests For Gaming Page", () => {
-    let rootStore: RootStore;
-    let transportLayer: TransportLayer;
-    let gamingVideoStore: GamingVideoStore;
 
-    beforeEach(() => {
-        rootStore = new RootStore(null);
-        transportLayer = new TransportLayer(null);
-        gamingVideoStore = new GamingVideoStore(transportLayer, rootStore);
-
-        render(
-            <MemoryRouter initialEntries={["/gaming"]}>
-                <Provider gamingVideoStore={gamingVideoStore}>
-                    <Gaming />
-                </Provider>
-            </MemoryRouter>
-        );
-    });
-
-    afterEach(cleanup);
-
-    it("[positive] should render full video page onClick ", () => {
-        // userEvent.click(getByTestId("gaming-video-card"));
-    });
-});
