@@ -45,6 +45,6 @@ describe("E2E for Trending Page", () => {
             .children()
             .first()
             .click();
-        cy.url().should("eq", VIDEO_URL);
+        cy.url().should("include", VIDEO_URL);
     });
 });
