@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation, useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeContextHook } from "../../hooks/ThemeContext";
 import { DashBoardContentModel } from "../../model/DashboardContent";
 import { DASH_BOARD_CONTENT } from "./constants";
@@ -9,7 +9,6 @@ import {
     ElementLogo,
     ElementText,
 } from "./style";
-
 
 interface DashBoardContentProps {
     dashBoardList: DashBoardContentModel;
@@ -27,6 +26,7 @@ const DashBoardContent = ({
                 const Element = item.icon;
                 return (
                     <DashBoardElement
+                        data-testid={item.title + "-testid"}
                         key={item.id}
                         onClick={() => {
                             dashBoardList.toggleActiveStatus(item.id);

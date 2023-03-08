@@ -16,7 +16,7 @@ export const VideoCardListHorizontal = ({ videoDataList }: VideoCardListHorizont
     return (
         <TrendingContainer>
 
-            <VideoCardsContainer>
+            <VideoCardsContainer data-testid="trending-video-container">
                 {videoDataList == undefined ? null
                     : videoDataList.map((videoItem) => (
                         <StyledLink to={`/videos/${videoItem.id}`} key={videoItem.id}>

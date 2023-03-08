@@ -6,21 +6,21 @@ export const DASH_BOARD_CONTENT = {
         {
             id: 1,
             icon: FaHome,
-            title: 'Home',
+            title: 'home',
             active: true,
             path:'/'
         },
         {
             id: 2,
             icon: FaFire,
-            title: 'Trending',
+            title: 'trending',
             active: false,
             path:'/trending'
         },
         {
             id: 3,
             icon: FaGamepad,
-            title: 'Gaming',
+            title: 'gaming',
             active: false,
             path:'/gaming'
 
@@ -28,7 +28,7 @@ export const DASH_BOARD_CONTENT = {
         {
             id: 4,
             icon: FaSave,
-            title: 'Saved video',
+            title: 'saved-video',
             active: false,
             path:'/save-videos'
         }

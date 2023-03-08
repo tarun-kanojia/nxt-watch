@@ -32,7 +32,6 @@ export const getDuration = (date: string) => {
         ${numberOfMinutes >= 1 ? `${numberOfMinutes} min` : EMPTY}
         
     `;
-
     return timeDuration;
 
 }

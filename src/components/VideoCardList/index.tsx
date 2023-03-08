@@ -18,7 +18,7 @@ const VideoCardList = ({ videoList }: VideoCardListProps) => {
     const renderVideoCards = (videoList: Video[]) => {
         return (videoList.length > 0 ?
 
-            <VideoCardListWrapper>
+            <VideoCardListWrapper data-testid="video-container">
                 {
                     videoList.map((videoItem) => (
                         <VideoCard key={videoItem.id}

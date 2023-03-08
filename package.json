@@ -57,7 +57,7 @@
         "@types/js-cookie": "^3.0.2",
         "@types/react-modal": "^3.13.1",
         "@types/styled-components": "^5.1.26",
-        "cypress": "^9.7.0",
+        "cypress": "^12.7.0",
         "react-scripts": "^5.0.1",
         "webpack": "^5.74.0"
     }

@@ -97,7 +97,7 @@ const Gaming = inject("gamingVideoStore")(
                 return (
                     <PageWrapper data-testid="gaming-page">
                         <PageHeader Icon={FaGamepad} title="Gaming" />
-                        <GamingVideosContainer>
+                        <GamingVideosContainer data-testid="gaming-video-container">
                             {renderGamingVideoList(videoDataList)}
                         </GamingVideosContainer>
                     </PageWrapper>

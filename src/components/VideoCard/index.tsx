@@ -25,7 +25,7 @@ interface VideoCardProps {
 export const VideoCard = ({ videoItem }: VideoCardProps) => {
     return (
         <StyledLink to={`/videos/${videoItem.id}`}>
-            <VideoCardWrapper  data-testid='video-card'>
+            <VideoCardWrapper data-testid="video-card">
                 <VideoCardHeaderImg
                     data-testid="video-card-img"
                     src={videoItem.thumbnailUrl}
